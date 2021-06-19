@@ -19,7 +19,6 @@ public class Application {
 				.properties(APPLICATION_LOCATIONS)
 				.run(args);
 	}
-
 }
 
 
