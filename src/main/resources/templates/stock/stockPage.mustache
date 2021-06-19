@@ -1,0 +1,170 @@
+{{>layout/header}}
+
+    <style>
+        table.type09 {
+          border-collapse: collapse;
+          text-align: left;
+          line-height: 1.5;
+        }
+
+        table.type09 thead th {
+          font-size: 20px;
+          padding: 10px;
+          font-weight: 600;
+          vertical-align: top;
+          color: #666666;
+          border-bottom: 4px solid #036;
+        }
+
+        table.type09 tbody th {
+          width: 150px;
+          padding: 10px;
+          font-weight: bold;
+          vertical-align: top;
+          border-bottom: 1px solid #ccc;
+          background: #f3f6f7;
+        }
+
+        table.type09 td {
+          width: 350px;
+          padding: 10px;
+          vertical-align: top;
+          border-bottom: 1px solid #ccc;
+        }
+        a:link { color: black; text-decoration: none;}
+        a:visited { color: black; text-decoration: none;}
+        a:hover { color: black; text-decoration: none;}
+
+        #kospi{width : 150px}
+        #kosdaq{width : 150px}
+</style>
+
+<body>
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/traders/images/bg_wave.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="mb-2 bread" style="font-size:45px;">News</p>
+                <p class="breadcrumbs"><span class="mr-2"><a href="/main">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>News <i class="ion-ios-arrow-forward"></i></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<script src="/traders/js/jquery.min.js"></script>
+<script src="/traders/js/jquery-migrate-3.0.1.min.js"></script>
+<script src="/traders/js/popper.min.js"></script>
+<script src="/traders/js/bootstrap.	min.js"></script>
+<script src="/traders/js/jquery.easing.1.3.js"></script>
+<script src="/traders/js/jquery.waypoints.min.js"></script>
+<script src="/traders/js/jquery.stellar.min.js"></script>
+<script src="/traders/js/owl.carousel.min.js"></script>
+<script src="/traders/js/jquery.magnific-popup.min.js"></script>
+<script src="/traders/js/aos.js"></script>
+<script src="/traders/js/jquery.animateNumber.min.js"></script>
+<script src="/traders/js/bootstrap-datepicker.js"></script>
+<script src="/traders/js/scrollax.min.js"></script>
+<script src="/traders/js/main.js"></script>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <span id="kospi"  class="form-control btn btn-primary rounded submit px-3">코스피</span><br>
+            &nbsp;&nbsp;
+            <span id="kosdaq"  class="form-control btn btn-primary rounded submit px-3">코스닥</span><br>
+        </div>
+        <div class="row justify-content-center">
+            <br>
+            <!--<div class="searchBox">-->
+            <!--    <label>종목검색: <input type="text" id="search"/></label>-->
+            <!--    <button>검색</button>=-->
+            <!--</div>-->
+            <table class="type09">
+                <thead>
+                <tr>
+                    <th>분류</th> &nbsp;
+                    <th>종목</th> &nbsp;
+                    <th>종목코드</th> &nbsp;
+                    <th>가격</th>
+                </tr>
+                </thead>
+                <tbody id="stock">
+                </tbody>
+            </table>
+</body>
+</div>
+</div>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+function getStock(query){
+
+    $.ajax({
+            url:'http://15.165.141.67:8000/stock/stocklist',
+            method:'GET',
+            datatype:"JSON",
+            data:{'query':query},
+            contentType: "application/json; charset=UTF-8",
+            success: function(result){
+                var appendStr = "";
+                Object.keys(result).forEach(function (key){
+                    var str = "<tr class='stock_detail'><td>" + result[key][1] +"</td>"+
+                                "<td class ='stock_name'>" + result[key][0]+ "</td>"+
+                                "<td class='stock_code'>" + key + "</td>"+
+                                "<td class='stock_price'>" + result[key][2] +"</td></tr>";
+                    appendStr += str;
+                });
+                $("#stock").append(appendStr);
+            }
+    });
+}
+
+    $(document).ready(function(){
+        getStock('1');
+    });
+
+    $(document).on('click',"td[class='stock_name']",function(e){
+            var stock_code =$(this).closest("tr").children().eq(2).text();
+            console.log(stock_code);
+            var stock_name =$(this).text();
+            console.log(stock_name);
+            var stock_price =$(this).closest("tr").children().eq(3).text();
+            var link = "/stock/stockDetail?stock_code=" + stock_code +"&stock_name="+ stock_name
+                        +"&stock_price="+ stock_price;
+            location.href=link;
+    });
+
+    $("#kospi").on('click',function(e){
+        location.reload();
+        getStock('1');
+    });
+
+    $("#kosdaq").on('click',function(e){
+        $("#stock").children().remove();
+        getStock('2');
+    });
+
+    /*
+    function filter(){
+        var search = $("#search").val().toLowerCase();
+        var listInner = $(".stock_detail");
+        for (let i = 0; i < listInner.length; i++) {
+              stockName = listInner[i].getElementsByClassName(".stock_name");
+              stockCode = listInner[i].getElementsByClassName(".stock_code");
+              if (stockName.innerHTML.toLowerCase().indexOf(search) != -1 ||
+                stockCode.innerHTML.toLowerCase().indexOf(search) != -1
+              ) {
+                listInner[i].style.display = "flex"
+              } else {
+                listInner[i].style.display = "none"
+              }
+        }
+    }
+    */
+</script>
+</html>

@@ -1,0 +1,142 @@
+{{>layout/header}}
+
+<style>
+    #moreNews {
+        background: #007bff;
+        border: 1px solid #007bff;
+        color: #fff;
+        width: 250px;
+        height: 50px;
+    }
+</style>
+
+<body>
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/traders/images/bg_wave.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="mb-2 bread" style="font-size:45px;">News</p>
+                <p class="breadcrumbs"><span class="mr-2"><a href="/main">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>News <i class="ion-ios-arrow-forward"></i></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+<script src="/traders/js/jquery.min.js"></script>
+<script src="/traders/js/jquery-migrate-3.0.1.min.js"></script>
+<script src="/traders/js/popper.min.js"></script>
+<script src="/traders/js/bootstrap.	min.js"></script>
+<script src="/traders/js/jquery.easing.1.3.js"></script>
+<script src="/traders/js/jquery.waypoints.min.js"></script>
+<script src="/traders/js/jquery.stellar.min.js"></script>
+<script src="/traders/js/owl.carousel.min.js"></script>
+<script src="/traders/js/jquery.magnific-popup.min.js"></script>
+<script src="/traders/js/aos.js"></script>
+<script src="/traders/js/jquery.animateNumber.min.js"></script>
+<script src="/traders/js/bootstrap-datepicker.js"></script>
+<script src="/traders/js/scrollax.min.js"></script>
+<script src="/traders/js/main.js"></script>
+
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-10">
+
+
+                <form id="newsForm">
+                    <input type="text" id="keyword" name='keyword' placeholder="검색어" class="form-control rounded-left">
+                    <br>
+                    <label for="news_num">글 개수</label>
+                    <br>
+                    <select id="news_num" name="news_num" class="form-control rounded-left">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <br>
+                    <input type="submit" value="입력" class="form-control btn btn-primary rounded submit px-3">
+                    <br><br>
+                </form>
+                <div id="news">
+                </div>
+                <button id="moreNews" class="2" style="display:none;">더 보기</button>
+</body>
+</div>
+</div>
+</div>
+</section>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+//전체적 변수 설정
+    var keyword;
+    var news_num;
+    var start_num = 1;
+    //ajax로 전송될 data 설정
+    var data = {'keyword': keyword,'news_num':news_num, 'start_num': start_num};
+    //개수 선택 누르면 새로고침
+    $("#news_num").on('change',function(){
+        $("#news").children().remove();
+         $("#moreNews").css("display","background: #007bff");
+    });
+    // form 의 submit을 할 때 뉴스를 요청하는 ajax
+    $("#newsForm").submit(function(e){
+        e.preventDefault();
+        $("#news").children().remove();
+        //1.검색할 뉴스 키워드
+        keyword = $("input[name='keyword']").val();
+        //2.검색할 뉴스의 개수
+        news_num = $("#news_num option:selected").val();
+        // 1,2 의 값 가져왔는지 확인
+        console.log(keyword);
+        console.log(news_num);
+        //data의 keyword 와 news_num 의 값 수정
+        data['keyword'] = keyword;
+        data['news_num'] = news_num;
+        //ajax로 요청
+        $.ajax({
+            url:'http://15.165.141.67:8000/news/news',
+            method:'GET',
+            data: data,
+            success:function(result){
+                var str = '';
+                Object.keys(result).forEach(function(key){
+                    str += '<div class="news"><div class="content'+ key + '">' +
+                    '<a href="'+ result[key]['url'] +'">'+ result[key]['title'] +
+                    '</a></div><div class="text">'+ result[key]['text'] +'</div></div><br>';
+                });
+                $("#news").append(str);
+                $("#moreNews").css("display","block");
+            },
+        });
+      });
+    //뉴스 더보기를 눌렀을때 추가 뉴스를 로딩하기
+    $("#moreNews").on('click',function(e){
+         data['start_num'] += Number($("#news_num option:selected").val());
+         $.ajax({
+            url:'http://15.165.141.67:8000/news/news',
+            method:'GET',
+            data: data,
+            success:function(result){
+                        var str = '';
+                        Object.keys(result).forEach(function(key){
+                            str += '<div class="news"><div class="content'+ key + '">' +
+                            '<a href="'+ result[key]['url'] +'">'+ result[key]['title'] +
+                            '</a></div><div class="text">'+ result[key]['text'] +'</div></div><br>';
+                        });
+                        $("#news").append(str);
+                    },
+                });
+            });
+</script>
+</html>

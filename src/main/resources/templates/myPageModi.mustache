@@ -1,0 +1,131 @@
+{{>layout/header}}
+
+<body>
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/traders/images/bg_wave.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <p class="mb-2 bread" style="font-size:45px;">My Page</p>
+                <p class="breadcrumbs"><span class="mr-2"><a href="/main">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>My Page <i class="ion-ios-arrow-forward"></i></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+    <script src="/traders/js/jquery.min.js"></script>
+    <script src="/traders/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="/traders/js/popper.min.js"></script>
+    <script src="/traders/js/bootstrap.	min.js"></script>
+    <script src="/traders/js/jquery.easing.1.3.js"></script>
+    <script src="/traders/js/jquery.waypoints.min.js"></script>
+    <script src="/traders/js/jquery.stellar.min.js"></script>
+    <script src="/traders/js/owl.carousel.min.js"></script>
+    <script src="/traders/js/jquery.magnific-popup.min.js"></script>
+    <script src="/traders/js/aos.js"></script>
+    <script src="/traders/js/jquery.animateNumber.min.js"></script>
+    <script src="/traders/js/bootstrap-datepicker.js"></script>
+    <script src="/traders/js/scrollax.min.js"></script>
+    <script src="/traders/js/main.js"></script>
+
+
+
+
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="login-wrap p-4 p-md-5">
+
+                    <form id="modiForm" action="/memberUpdate" method="post">
+
+                        <label for="memberId">아이디</label>
+                        <input type="text" class="form-control rounded-left"  name="memberId" id="memberId" value={{member.memberId}} readonly>
+                        <br>
+
+                        <label for="memberPw">비밀번호</label>
+                        <input type="password" class="form-control rounded-left" placeholder="수정할 비밀번호" name="memberPw" id="memberPw">
+                        <br>
+
+                        <label for="memberName">이름</label>
+                        <input type="text" class="form-control rounded-left" name="memberName" id="memberName" value={{member.memberName}} readonly>
+                        <br>
+
+                        <label for="memberGender">성별</label>
+                        <input type="text" class="form-control rounded-left" name="memberGender" id="memberGender" value={{member.memberGender}} readonly>
+                        <br>
+
+                        <label for="memberEmail">이메일</label>
+                        <input type="text" class="form-control rounded-left" placeholder="수정할 이메일" name="memberEmail" id="memberEmail" value={{member.memberEmail}}>
+                        <br>
+                        <!--<label for="memberEmail">이메일</label>
+        <input type="text" name="memberEmail" id="memberEmail" value={{member.memberEmail}}>-->
+
+                        <label for="memberAge">나이</label>
+                        <input type="text" class="form-control rounded-left" name="memberAge" id="memberAge" value={{member.memberAge}} readonly>
+                        <br>
+
+                        <input type="submit" class="form-control btn btn-primary rounded submit px-3" value="회원정보 저장">
+                        <br></br>
+                        <a href="/myPage" input type="" class="form-control btn btn-primary rounded submit px-3">뒤로가기</a>
+                        <br></br>
+                        <a href="/memberOut" input type="" class="form-control btn btn-primary rounded submit px-3">회원 탈퇴</a>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+     $("#modiForm input[type='submit']").on("click",function(e){
+          var form = document.getElementById("modiForm");
+
+          var pwdChk = /^[a-zA-Z0-9]{8,15}$/;
+          var emailChk = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+
+          var id = document.getElementById("memberId");
+          var pwd = document.getElementById("memberPw");
+          var email = document.getElementById("memberEmail");
+
+
+             if(!pwd.value){
+                alert("수정하실 비밀번호를 입력해 주세요");
+                return false;
+            }
+
+             if(!pwdChk.test(pwd.value)){
+                alert("비밀번호는 영문자와 숫자 조합으로 8~15자리 사용해야 합니다.");
+                return false;
+            }
+
+            if(pwd.value==id.value){
+                alert("Id와 Password가 동일합니다.");
+                return false;
+            }
+
+              if(!email.value){
+                alert("이메일을 입력해 주세요");
+                return false;
+            }
+
+            if(!emailChk.test(email.value)){
+                alert("올바른 이메일 형식이 아닙니다.");
+                return false;
+            }
+
+            form.submit();
+     });
+
+</script>
+</html>
