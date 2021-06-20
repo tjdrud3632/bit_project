@@ -1,6 +1,9 @@
 package com.example.demo.controller.gallery;
 
 import com.example.demo.domain.gallery.AttachFileDTO;
+import com.example.demo.service.S3Uploader;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -11,10 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -29,18 +29,37 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+
+@Slf4j
+@RequiredArgsConstructor
+@RequestMapping("/gallery")
 @Controller
 public class UploadController1 {
 
-    @GetMapping("gallery/uploadForm")
+    private final S3Uploader s3Uploader;
+
+    @GetMapping("/index")
+    public String index(){
+        return "index";
+    }
+
+
+    @PostMapping("/upload")
+    @ResponseBody
+    public String upload(@RequestParam("data") MultipartFile file) throws IOException {
+        log.info("/upload 도착!");
+        return s3Uploader.upload(file, "static");
+    }
+
+    @GetMapping("/uploadForm")
     public String uploadForm() {
 
-        return "gallery/uploadForm";
+        return "uploadForm";
     }   //uploadForm.jsp 띄어줌
 
     //form에서 넘어오는 uploadFormAction (uploadForm.jsp)
     //입력한 파일을 디렉토리에 저장해줌
-    @PostMapping("gallery/uploadFormAction")
+    @PostMapping("/uploadFormAction")
     public void uploadFormPost(MultipartFile[] uploadFile, Model model) {
 
         String uploadFolder = "C:\\upload";
@@ -57,7 +76,7 @@ public class UploadController1 {
         }
     }
 
-    @GetMapping("gallery/uploadAjax")
+    @GetMapping("/uploadAjax")
     public String uploadAjax() {
 
         return "gallery/uploadAjax";
@@ -89,7 +108,7 @@ public class UploadController1 {
     }
 
     //Ajax로 넘어옴 ( upload버튼을 눌렀을 때 )
-    @PostMapping(value = "gallery/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
 
@@ -154,7 +173,7 @@ public class UploadController1 {
     }
 
     //이미지를 눌렀을때 크게 보여주는 거 img src="/display"
-    @GetMapping("gallery/display")
+    @GetMapping("/display")
     @ResponseBody
     public ResponseEntity<byte[]> getFile(String fileName) {
 
@@ -176,7 +195,7 @@ public class UploadController1 {
     }
 
     // a href='/download?fileName
-    @GetMapping(value = "gallery/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public ResponseEntity<Resource> downloadFile(@RequestHeader("User-Agent") String userAgent, String fileName) {
 //upload내 존재하는 fileName
@@ -216,7 +235,7 @@ public class UploadController1 {
     }
 
 
-    @PostMapping("gallery/deleteFile")
+    @PostMapping("/deleteFile")
     @ResponseBody
     //Ajax로 넘어오는 fileName, type
     public ResponseEntity<String> deleteFile(String fileName, String type) {

@@ -5,8 +5,8 @@
 <mapper namespace="com.example.demo.mapper.board.BoardFileMapper">
 
     <insert id="insert">
-        insert into board_file (fno, uuid, uploadpath, filename, filetype, bno)
-        values (seq_board_file.nextval, #{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{bno})
+        insert into board_file (fno, filename, bno)
+        values (seq_board_file.nextval, #{fileName}, #{bno})
     </insert>
 
     <delete id="delete">

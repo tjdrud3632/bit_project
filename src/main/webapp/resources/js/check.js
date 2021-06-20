@@ -3,7 +3,7 @@ window.onload = function() {
 
 var member_id = sessionStorage.getItem("member_id");
 
-console.log(member_id);
+//console.log(member_id);
 
 
 $.ajax({
@@ -12,7 +12,7 @@ $.ajax({
             data: member_id,
             contentType: "application/json; charset=UTF-8",
             success: function(check){
-                console.log(check);
+               // console.log(check);
                 if(check == '1'){
                     $("#admin").show();
                 } else if(check == '0'){
@@ -20,7 +20,7 @@ $.ajax({
                 }
             },
             error: function(){
-            console.log("fail");
+                console.log("fail");
             }
 });
 
@@ -31,7 +31,7 @@ $.ajax({
             data: member_id,
             contentType : "application/json; charset=UTF-8",
             success : function(result){
-            console.log("result::" + result);
+            //console.log("result::" + result);
 
                 if(result == '1'){
                      $("#asRegBtn").remove();
@@ -41,20 +41,20 @@ $.ajax({
                 }
             },
             error: function(){
-            console.log("fail");
+                console.log("fail");
             }
         });
 
 
 
-console.log("memberId::"+member_id);
+//console.log("memberId::"+member_id);
 $.ajax({
             url : '/account/accountChk',
             type: 'POST',
             data: member_id,
             contentType : "application/json; charset=UTF-8",
             success : function(result1){
-            console.log("result1::" + result1);
+            //console.log("result1::" + result1);
 
                 if(result1 == '1'){
                      $("#acRegBtn").remove();
@@ -64,7 +64,7 @@ $.ajax({
                 }
             },
             error: function(){
-            console.log("fail");
+                console.log("fail");
             }
         });
 

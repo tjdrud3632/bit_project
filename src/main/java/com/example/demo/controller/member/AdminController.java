@@ -77,7 +77,7 @@ public class AdminController {
     public String adminChk(@RequestBody String memberId) {
 
         String check = memberService.adminChk(memberId);
-        System.out.println("check:"+check);
+
         return check;
     }
 

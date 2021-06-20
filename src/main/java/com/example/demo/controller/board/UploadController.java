@@ -1,6 +1,9 @@
 package com.example.demo.controller.board;
 
 import com.example.demo.domain.board.AttachFileDTO;
+import com.example.demo.service.S3Uploader;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -11,10 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 //import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 //import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -31,8 +31,33 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
+@RequiredArgsConstructor
 @Controller
 public class UploadController {
+
+
+    private final S3Uploader s3Uploader;
+
+    @GetMapping("/index")
+    public String index(){
+        return "index";
+    }
+
+
+    @PostMapping("/upload")
+    @ResponseBody
+    public String upload(@RequestParam("data") MultipartFile file) throws IOException {
+
+        log.info("/upload 도착!");
+        AttachFileDTO attachFileDTO = new AttachFileDTO();
+        String fileName = file.getOriginalFilename();
+        System.out.println(fileName);
+        attachFileDTO.setFileName(fileName);
+        System.out.println(attachFileDTO.getFileName());
+        return s3Uploader.upload(file, "static");
+
+    }
 
     @GetMapping("/uploadForm")
     public String uploadForm() {

@@ -1,12 +1,13 @@
 package com.example.demo.mapper.board;
 
+import com.example.demo.domain.board.AttachFileDTO;
 import com.example.demo.domain.board.BoardFileVO;
 
 import java.util.List;
 
 public interface BoardFileMapper {
 
-    public void insert(BoardFileVO file);
+    public void insert(AttachFileDTO file);
 
     public void delete(Long fno);
 

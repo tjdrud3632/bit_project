@@ -140,7 +140,8 @@
       <div class="panel-body">
         <div class="form-group uploadDiv">
             <input type="file" id="uploadFile" name="uploadFile" accept="image/*" multiple>
-            </br></br>
+            </br>
+            </br>
         </div>
         
         <div class='uploadResult'>

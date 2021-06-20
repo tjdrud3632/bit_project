@@ -43,10 +43,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member get(String memberId) {
-        System.out.println("memberServiceImpl:" + memberId);
+
         Member member = memberRepository.findByMemberId(memberId);
-        System.out.println("memberServiceImpl MEMBER:" + member.getMemberId());
-        System.out.println("memberServiceImpl MEMBER NAME:" + member.getMemberName());
+     /*   System.out.println("memberServiceImpl MEMBER:" + member.getMemberId());
+        System.out.println("memberServiceImpl MEMBER NAME:" + member.getMemberName());*/
         return member;
     }
 
@@ -66,7 +66,7 @@ public class MemberServiceImpl implements MemberService {
         if(pw!=null && pw.equals(loginPw)){
             Member member = memberRepository.findByMemberId(loginId);
             SessionMember sessionMember = new SessionMember(member);
-            System.out.println(sessionMember.getRole());
+           // System.out.println(sessionMember.getRole());
             return sessionMember;
         }
         return null;
@@ -120,7 +120,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String adminChk(String memberId) {
         String role =  memberMapper.adminChk(memberId).toString();
-        System.out.println(role);
+       // System.out.println(role);
         if (role == "ADMIN") {
             return "1";
         }

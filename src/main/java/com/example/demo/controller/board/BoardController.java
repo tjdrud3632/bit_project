@@ -52,8 +52,9 @@ public class BoardController {
     }
 
     @PostMapping("register")
-    public String register(BoardVO board, RedirectAttributes rttr){
+    public String register(BoardVO board, String fileName, RedirectAttributes rttr){
 
+        board.setFileName(fileName);
         service.register(board);
         rttr.addFlashAttribute("result", board.getBno());
 

@@ -1,6 +1,7 @@
 package com.example.demo.service.board;
 
 
+import com.example.demo.domain.board.AttachFileDTO;
 import com.example.demo.domain.board.BoardFileVO;
 import com.example.demo.domain.board.BoardVO;
 
@@ -42,15 +43,17 @@ public class BoardServiceImpl implements BoardService {
         mapper.insertSelectKey(board);
 
 //file 없다
-        if(board.getFileList() == null || board.getFileList().size() <= 0){
+
+        AttachFileDTO attachFileDTO = new AttachFileDTO();
+        attachFileDTO.setFileName(board.getFileName());
+        attachFileDTO.setBno(board.getBno());
+
+        fileMapper.insert(attachFileDTO);
+
+        if(board.getFileName() == null){
             return;
         }
-//게시글번호를 fileVO객체 bno에 삽입, 파일 insert
-        board.getFileList().forEach(file -> {
 
-            file.setBno(board.getBno());
-            fileMapper.insert(file);
-        });
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -72,7 +75,7 @@ public class BoardServiceImpl implements BoardService {
             board.getFileList().forEach(file ->{
 //다시 게시글 번호와 파일을 삽입함
                 file.setBno(board.getBno());
-                fileMapper.insert(file);
+                //fileMapper.insert(file);
             });
         }
         return modifyResult;
