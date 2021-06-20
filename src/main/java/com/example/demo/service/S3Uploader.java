@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.demo.domain.board.AttachFileDTO;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,7 @@ public class S3Uploader {
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
+
     private void removeNewFile(File targetFile) {
         if(targetFile.delete()) {
             log.info("파일이 삭제되었습니다.");
@@ -71,6 +73,12 @@ public class S3Uploader {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+
+    public String getS3(String fileName){
+
+        return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
 }

@@ -29,4 +29,9 @@
             where uploadpath = to_char(sysdate -1, 'yyyy\mm\dd')
     </select>
 
+    <select id="getFileNameByBno" resultType="String">
+        select filename from board_file
+        where bno = #{bno}
+    </select>
+
 </mapper>

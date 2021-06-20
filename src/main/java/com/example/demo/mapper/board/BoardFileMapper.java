@@ -16,4 +16,6 @@ public interface BoardFileMapper {
     public void deleteAll(Long bno);
 
     public List<BoardFileVO> getOldFiles();
+
+    public String getFileNameByBno(Long bno);
 }

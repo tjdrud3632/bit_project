@@ -236,7 +236,7 @@ $(document).ready(function(e){
             console.log("data: " + data);
             showUploadResult(data);
         }).fail(function(error){
-            console.log("s3 fail");
+            console.log("s3 upload fail");
             alert(error);
         })
 

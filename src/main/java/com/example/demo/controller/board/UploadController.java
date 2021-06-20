@@ -59,6 +59,16 @@ public class UploadController {
 
     }
 
+    @PostMapping("/show")
+    @ResponseBody
+    public String show(@RequestParam("data") String fileName) {
+
+        log.info("/show 도착!");
+
+        return s3Uploader.getS3(fileName);
+
+    }
+
     @GetMapping("/uploadForm")
     public String uploadForm() {
 

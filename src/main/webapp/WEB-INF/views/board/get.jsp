@@ -200,7 +200,8 @@
       <div class="panel-body">
         
         <div class='uploadResult'> 
-          <ul>
+          <ul id="uploadResult">
+              <img src="" id="result-image" class="" >
           </ul>
         </div>
       </div>
@@ -296,6 +297,49 @@
 
 
 <script type="text/javascript" src="/resources/js/reply.js"></script>
+
+<script>
+
+window.onload = function(){
+
+       var fileName = '<c:out value="${board.fileName}"/>';
+       console.log(fileName);
+
+       $.ajax({
+            url: '/show',
+            type: 'POST',
+            data: fileName,
+            success: function(data){
+                console.log(data);
+                showUrl(data);
+            },
+            error: function(){
+                 console.log("getS3URL fail");
+            }
+       });
+
+}
+
+       function showUrl(data){
+
+            var getURL = $("#uploadResult");
+            var s3URL = data;
+
+            var extension = s3URL.slice(-3);
+            console.log(extension);
+
+            if(extension == 'jpg' || extension == 'png' ){
+                 $('#result-image').attr("src", data);
+
+            } else {
+                 $('#result-image').attr("src", '/resources/img/file.png');
+
+            }
+
+       }
+
+
+</script>
 
 <script>
 
@@ -542,9 +586,8 @@ $(document).ready(function () {
 
 
 
-
-
 <script type="text/javascript">
+
 $(document).ready(function() {
   
   var operForm = $("#operForm"); 
@@ -567,90 +610,8 @@ $(document).ready(function() {
 </script>
 
 
-<script>
 
 
-$(document).ready(function(){
-  
-  (function(){
-  
-    var bno = '<c:out value="${board.bno}"/>';
-
-    $.getJSON("/board/getFileList", {bno: bno}, function(arr){
-        
-       console.log(arr);
-       
-       var str = "";
-       
-       $(arr).each(function(i, file){
-       
-         //image type
-         if(file.fileType){
-           var fileCallPath =  encodeURIComponent( file.uploadPath+ "/s_"+file.uuid +"_"+file.fileName);
-           
-           str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"' data-type='"+file.fileType+"' ><div>";
-           str += "<img src='/display?fileName="+fileCallPath+"'>";
-           str += "</div>";
-           str +"</li>";
-         }else{
-             
-           str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' data-filename='"+file.fileName+"' data-type='"+file.fileType+"' ><div>";
-           str += "<span> "+ file.fileName+"</span><br/>";
-           str += "<img src='/resources/img/file.png'></a>";
-           str += "</div>";
-           str +"</li>";
-         }
-       });
-       
-       $(".uploadResult ul").html(str);
-       
-       
-     });//end getjson
-
-    
-  })();//end function
-  
-  $(".uploadResult").on("click","li", function(e){
-      
-    console.log("view image");
-    
-    var liObj = $(this);
-    
-    var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
-    
-    if(liObj.data("type")){
-      showImage(path.replace(new RegExp(/\\/g),"/"));
-    }else {
-      //download 
-      self.location ="/download?fileName="+path
-    }
-    
-    
-  });
-  
-  function showImage(fileCallPath){
-	    
-    alert(fileCallPath);
-   //원본 이미지 보여주기
-    $(".bigPictureWrapper").css("display","flex").show();
-    
-    $(".bigPicture")
-    .html("<img src='/display?fileName="+fileCallPath+"' >")
-    .animate({width:'100%', height: '100%'}, 1000);
-    
-  }
-//원본이미지 닫기
-  $(".bigPictureWrapper").on("click", function(e){
-    $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
-    setTimeout(function(){
-      $('.bigPictureWrapper').hide();
-    }, 1000);
-  });
-
-  
-});
-
-</script>
 
 <%@include file="../includes/boardFooter.jsp"%>
 

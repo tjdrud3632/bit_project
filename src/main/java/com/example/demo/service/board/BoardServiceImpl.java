@@ -60,7 +60,12 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardVO get(Long bno) {
         mapper.updateHit(bno);
-        return mapper.read(bno);
+
+        BoardVO board = mapper.read(bno);
+        String fileName = fileMapper.getFileNameByBno(bno);
+        board.setFileName(fileName);
+
+        return board;
     }
 
     @Transactional
