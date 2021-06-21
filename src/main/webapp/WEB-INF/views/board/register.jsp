@@ -204,8 +204,8 @@ $(document).ready(function(e){
   function checkExtension(fileName, fileSize){
     
     if(fileSize >= maxSize){
-      alert("파일 사이즈 초과");
-      return false;
+          alert("파일 사이즈 초과");
+          return false;
     }
     
     if(regex.test(fileName)){
