@@ -65,7 +65,7 @@
                 member_no, member_id, member_email, member_name, member_age, member_gender
               from
                   (
-                  select
+                  select /*+INDEX_DESC(member SYS_C005111) */
                     rownum rn, member_no, member_id, member_email, member_name, member_age, member_gender
                   from
                     member

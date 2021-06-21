@@ -201,8 +201,8 @@
 						    if (parseInt(result) > 0) {
                                 alert(result + "번 글이 등록되었습니다");
                                 return false;
-                            } else if(result == "success"){
 
+                            } else if(result == "success"){
                                 alert("처리가 완료되었습니다");
                                 return false;
                             }
