@@ -42,16 +42,19 @@ public class BoardServiceImpl implements BoardService {
 
         mapper.insertSelectKey(board);
 
+        System.out.println("fileName" + board.getFileName());
+
 //file 없다
-
-        AttachFileDTO attachFileDTO = new AttachFileDTO();
-        attachFileDTO.setFileName(board.getFileName());
-        attachFileDTO.setBno(board.getBno());
-
-        fileMapper.insert(attachFileDTO);
-
         if(board.getFileName() == null){
             return;
+
+        } else if(board.getFileName() != "") {
+
+            AttachFileDTO attachFileDTO = new AttachFileDTO();
+            attachFileDTO.setFileName(board.getFileName());
+            attachFileDTO.setBno(board.getBno());
+
+            fileMapper.insert(attachFileDTO);
         }
 
     }

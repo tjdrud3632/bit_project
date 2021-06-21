@@ -177,17 +177,22 @@ $(document).ready(function(e){
     console.log("submit clicked");
 
     var fileName = $('#result-image').attr('class');
-    console.log("dto: "+ fileName);
 
-    var str = "";
+    console.log(fileName);
+
+    if(fileName != ''){
+        console.log("dto: "+ fileName);
+
+        var str = "";
 
 
- //파일을 선택했을때 파일 업로드 처리   히든으로 첨부파일의 정보들이  보드 VO FielList에 수집됨
-      str += "<input type='hidden' name='fileName' value=''>";
+       //파일을 선택했을때 파일 업로드 처리   히든으로 첨부파일의 정보들이  보드 VO FielList에 수집됨
+          str += "<input type='hidden' name='fileName' value=''>";
 
 
-    formObj.append(str);
-    $("input[name='fileName']").attr("value", fileName);
+        formObj.append(str);
+        $("input[name='fileName']").attr("value", fileName);
+    }
 
     formObj.submit();
     
