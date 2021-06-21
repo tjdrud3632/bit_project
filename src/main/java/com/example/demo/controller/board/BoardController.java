@@ -89,7 +89,6 @@ public class BoardController {
         return "board/list";
     }
 
-
     @GetMapping("get")
     public String get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model, HttpSession httpSession){
 
