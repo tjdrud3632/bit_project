@@ -108,7 +108,12 @@ public class BoardController {
     }
 
     @PostMapping("modify")
-    public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr){
+    public String modify(BoardVO board, String fileName, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr){
+
+        if(fileName != ""){
+            board.setFileName(fileName);
+           // System.out.println("ctr에서 set한 파일이름"+fileName);
+        }
 
         if(service.modify(board)){
             rttr.addFlashAttribute("result", "success");
@@ -120,10 +125,7 @@ public class BoardController {
     @PostMapping("remove")
     public String remove(@RequestParam("bno") Long bno,Criteria cri, RedirectAttributes rttr ){
 
-        List<BoardFileVO> fileList = service.getFileList(bno);
-
         if(service.remove(bno)){
-            deleteFiles(fileList);
 
             rttr.addAttribute("result","success");
         }

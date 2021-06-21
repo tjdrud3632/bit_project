@@ -305,19 +305,20 @@ window.onload = function(){
        var fileName = '<c:out value="${board.fileName}"/>';
        console.log(fileName);
 
-       $.ajax({
-            url: '/show',
-            type: 'POST',
-            data: fileName,
-            success: function(data){
-                console.log(data);
-                showUrl(data);
-            },
-            error: function(){
-                 console.log("getS3URL fail");
-            }
-       });
-
+      if(fileName != ''){
+           $.ajax({
+                url: '/show',
+                type: 'POST',
+                data: fileName,
+                success: function(data){
+                    console.log(data);
+                    showUrl(data);
+                },
+                error: function(){
+                     console.log("getS3URL fail");
+                }
+           });
+      }
 }
 
        function showUrl(data){

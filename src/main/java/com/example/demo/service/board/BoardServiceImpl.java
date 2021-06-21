@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -76,15 +78,18 @@ public class BoardServiceImpl implements BoardService {
     public boolean modify(BoardVO board) {
 //다 지워주고
         fileMapper.deleteAll(board.getBno());
-//update가 성공이면
+
         boolean modifyResult = mapper.update(board) == 1;
-//update가 성공적이고 파일이 비어있지 않다면 (파일이 있다면)
-        if(modifyResult && board.getFileList() != null && board.getFileList().size() > 0){
-            board.getFileList().forEach(file ->{
-//다시 게시글 번호와 파일을 삽입함
-                file.setBno(board.getBno());
-                //fileMapper.insert(file);
-            });
+
+        if(modifyResult && board.getFileName() != ""){
+
+            AttachFileDTO attachFileDTO = new AttachFileDTO();
+           // System.out.println("imple에서 set"+ board.getFileName());
+            attachFileDTO.setFileName(board.getFileName());
+            attachFileDTO.setBno(board.getBno());
+
+            fileMapper.insert(attachFileDTO);
+
         }
         return modifyResult;
     }
@@ -122,3 +127,4 @@ public class BoardServiceImpl implements BoardService {
 
 
 }
+
