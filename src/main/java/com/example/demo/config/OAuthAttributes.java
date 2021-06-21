@@ -46,8 +46,11 @@ public class OAuthAttributes {
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName,Map<String ,Object> attributes){
+        String email = (String)attributes.get("email");
+        String[] id = email.split("@");
+
         return OAuthAttributes.builder()
-                .id((String) attributes.get("sub"))
+                .id(id[0])
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .gender("N")
