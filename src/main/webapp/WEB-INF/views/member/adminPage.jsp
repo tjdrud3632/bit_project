@@ -53,11 +53,6 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<button id='regBtn' type="button" class="btn btn-xs pull-right">Register
-					New Board</button>
-			</div>
-			<!-- /.panel-heading -->
 			<div class="panel-body">
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
