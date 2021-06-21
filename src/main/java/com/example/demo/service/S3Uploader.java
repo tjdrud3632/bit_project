@@ -55,6 +55,13 @@ public class S3Uploader {
         return amazonS3Client.getUrl(bucket, fileName).toString();
     }
 
+    public String getS3(String fileName, String dirName){
+
+        String url = dirName + "/" + fileName;
+
+        return amazonS3Client.getUrl(bucket, url).toString();
+    }
+
 
     private void removeNewFile(File targetFile) {
         if(targetFile.delete()) {
@@ -76,9 +83,6 @@ public class S3Uploader {
     }
 
 
-    public String getS3(String fileName){
 
-        return amazonS3Client.getUrl(bucket, fileName).toString();
-    }
 
 }

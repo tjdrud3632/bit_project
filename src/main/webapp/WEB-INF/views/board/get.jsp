@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+`<%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -322,14 +322,16 @@ window.onload = function(){
 
        function showUrl(data){
 
-            var getURL = $("#uploadResult");
-            var s3URL = data;
+            var setURL = $("#uploadResult");
+            var getURL = data;
+            var s3URL = getURL.slice(0, -3);
+            console.log("s3URL" + s3URL);
 
             var extension = s3URL.slice(-3);
             console.log(extension);
 
             if(extension == 'jpg' || extension == 'png' ){
-                 $('#result-image').attr("src", data);
+                 $('#result-image').attr("src", s3URL);
 
             } else {
                  $('#result-image').attr("src", '/resources/img/file.png');
@@ -617,3 +619,4 @@ $(document).ready(function() {
 
 
 
+`

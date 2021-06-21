@@ -65,7 +65,7 @@ public class UploadController {
 
         log.info("/show 도착!");
 
-        return s3Uploader.getS3(fileName);
+        return s3Uploader.getS3(fileName, "static");
 
     }
 
