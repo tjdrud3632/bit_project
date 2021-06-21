@@ -61,7 +61,7 @@ public class UploadController {
 
     @PostMapping("/show")
     @ResponseBody
-    public String show(@RequestParam("data") String fileName) {
+    public String show(@RequestBody String fileName) {
 
         log.info("/show 도착!");
 
