@@ -64,7 +64,7 @@
                     </select>
                     <br>
                     <input type="submit" value="입력" class="form-control btn btn-primary rounded submit px-3">
-                    <br><br>
+                    <br><br></br></br>
                 </form>
                 <div id="news">
                 </div>
@@ -113,7 +113,7 @@
                 Object.keys(result).forEach(function(key){
                     str += '<div class="news"><div class="content'+ key + '">' +
                     '<a href="'+ result[key]['url'] +'">'+ result[key]['title'] +
-                    '</a></div><div class="text">'+ result[key]['text'] +'</div></div><br>';
+                    '</a></div><div class="text" style="margin-bottom:35px;">'+ result[key]['text'] +'</div></div>';
                 });
                 $("#news").append(str);
                 $("#moreNews").css("display","block");
@@ -132,7 +132,7 @@
                         Object.keys(result).forEach(function(key){
                             str += '<div class="news"><div class="content'+ key + '">' +
                             '<a href="'+ result[key]['url'] +'">'+ result[key]['title'] +
-                            '</a></div><div class="text">'+ result[key]['text'] +'</div></div><br>';
+                            '</a></div><div class="text" style="margin-bottom:35px;">'+ result[key]['text'] +'</div></div>';
                         });
                         $("#news").append(str);
                     },

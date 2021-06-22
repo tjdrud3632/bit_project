@@ -46,15 +46,19 @@ public class GalleryServiceImpl implements GalleryService {
             attachFileDTO.setFileName(gallery.getFileName());
             attachFileDTO.setBno(gallery.getBno());
 
-           // fileMapper.insert(attachFileDTO);
+            fileMapper.insert(attachFileDTO);
         }
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public GalleryVO get(Long bno) {
-        mapper.updateHit(bno);
-        return mapper.read(bno);
+
+        GalleryVO gallery =  mapper.read(bno);
+        String fileName = fileMapper.getFileNameByBno(bno);
+        gallery.setFileName(fileName);
+
+        return gallery;
     }
 
     @Transactional
@@ -69,7 +73,7 @@ public class GalleryServiceImpl implements GalleryService {
             gallery.getFileList().forEach(file ->{
 //다시 게시글 번호와 파일을 삽입함
                 file.setBno(gallery.getBno());
-                fileMapper.insert(file);
+              //  fileMapper.insert(file);
             });
         }
         return modifyResult;

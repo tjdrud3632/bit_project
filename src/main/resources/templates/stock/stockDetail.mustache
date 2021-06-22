@@ -2,29 +2,22 @@
 
 
 <body>
-<section class="hero-wrap hero-wrap-2" style="background-image: url('/traders/images/bg_wave.jpg');"
-         data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/traders/images/bg_wave.jpg');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
             <div class="col-md-9 ftco-animate text-center">
                 <p class="mb-2 bread" style="font-size:45px;">News</p>
-                <p class="breadcrumbs"><span class="mr-2"><a href="/main">Home <i class="ion-ios-arrow-forward"></i></a></span>
-                    <span>News <i class="ion-ios-arrow-forward"></i></span></p>
+                <p class="breadcrumbs"><span class="mr-2"><a href="/main">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>News <i class="ion-ios-arrow-forward"></i></span></p>
             </div>
         </div>
     </div>
 </section>
 
 
+
 <!-- loader -->
-<div id="ftco-loader" class="show fullscreen">
-    <svg class="circular" width="48px" height="48px">
-        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                stroke="#F96D00"/>
-    </svg>
-</div>
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 
 <script src="/traders/js/jquery.min.js"></script>
@@ -52,8 +45,7 @@
 
                 <form id="form">
                     <input type="date" value="" class="form-control rounded-left"><br></br>
-                    <input type="submit" value="날짜 선택"
-                           class="form-control btn btn-primary rounded submit px-3"><br></br>
+                    <input type="submit" value="날짜 선택" class="form-control btn btn-primary rounded submit px-3"><br></br>
                 </form>
                 <div>주식차트</div>
                 <div id="chart">
@@ -74,16 +66,17 @@
                 </div>
                 <br></br>
 
-                <span><a href="/stock/news"
-                         class="form-control btn btn-primary rounded submit px-3">검색어로 뉴스 검색하기</a></span>
-            </div>
-        </div>
-    </div>
-</section>
+                <span><a href="/stock/news" class="form-control btn btn-primary rounded submit px-3">검색어로 뉴스 검색하기</a></span>
+
 </body>
+</div>
+</div>
+</div>
+</section>
+
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-            $("#form").submit(function(e){
+           $("#form").submit(function(e){
                 e.preventDefault();
                 //model 에서 가져온 주식 이름
                 var stock_name = `{{stockInfo.stockName}}`;
@@ -165,7 +158,7 @@
                 Object.keys(result).forEach(function(key){
                     str += '<div class="news"><div class="content'+ key + '">' +
                     '<a href="'+ result[key]['url'] +'">'+ result[key]['title'] +
-                    '</a></div><div class="text">'+ result[key]['text'] +'</div></div>';
+                    '</a></div><div class="text" style="margin-bottom:35px;">'+ result[key]['text'] +'</div></div>';
                 });
                 $("#news").append(str);
             },

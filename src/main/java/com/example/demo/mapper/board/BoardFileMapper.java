@@ -19,3 +19,4 @@ public interface BoardFileMapper {
 
     public String getFileNameByBno(Long bno);
 }
+
