@@ -5,8 +5,8 @@
 <mapper namespace="com.example.demo.mapper.gallery.GalleryFileMapper">
 
     <insert id="insert">
-        insert into gallery_file (fno, uuid, uploadpath, filename, filetype, bno)
-        values (seq_gallery_file.nextval, #{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{bno})
+        insert into gallery_file (fno, bno, filename)
+        values (seq_gallery_file.nextval, #{bno}, #{fileName} )
     </insert>
 
     <delete id="delete">

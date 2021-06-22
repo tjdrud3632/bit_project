@@ -10,8 +10,8 @@
     background: #007bff;
     border: 1px solid #007bff;
     color: #fff;
-     width: 60px;
-       height: 40px;}
+    width: 60px;
+    height: 40px;}
 </style>
 
 <body>
