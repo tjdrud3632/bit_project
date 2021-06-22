@@ -2,7 +2,7 @@
   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@include file="../includes/boardHeader.jsp"%>
+<%@include file="../includes/galleryHeader.jsp"%>
 
 <body>
 
@@ -18,7 +18,7 @@
 		</div>
 	</section>
 	<br>
-    <a href="/gallery/register" role="button" class="btn btn-primary float-right">사진 등록하기</a>
+    <a href="/gallery/register" role="button" class="btn btn-primary float-right" style="margin-right:25px">사진 등록하기</a>
     <br>
     <br></br>
 
@@ -31,8 +31,9 @@
 
 						<img src="${display}${file.fileUrl}" onerror="this.src='/resources/img/noImage.gif';" class="img-fluid"  style="height:400px;width:100%;"/>
 						<div class="text">
-                            <a href="get?bno=${file.bno}" style="color:white; font-size:2.0em; font-weight:bold;">${file.title}</a> <br>
-						    <a href="get?bno=${file.bno}" style="color:white;" >${file.writer}</a>
+                            <a href="get?bno=${file.bno}" style="color:white; font-size:2.0em; font-weight:bold; margin-bottom:10px; word-break:break-all;" >${file.title}</a><br></br>
+						    <a href="get?bno=${file.bno}" style="color:white; font-size:1.0em; margin-bottom:10px; word-break:break-all;" >${file.writer}</a><br></br>
+						    <a href="get?bno=${file.bno}" style="color:white; word-break:break-all;">${file.content}</a>
 						</div>
 						<a href="${display}${file.fileUrl}" class="icon image-popup d-flex justify-content-center align-items-center">
 							<span class="icon-expand"></span>
@@ -40,18 +41,6 @@
 					</div>
 				</div>
 			</c:forEach>
-			<!-- <div class="col-md-6 col-lg-3 ftco-animate">
-				<div class="project">
-					<img src="images/work-3.jpg" class="img-fluid" alt="Colorlib Template">
-					<div class="text">
-						<span>Interior Design</span>
-						<h3>Office Interior Design</h3>
-					</div>
-					<a href="images/work-3.jpg" class="icon image-popup d-flex justify-content-center align-items-center">
-						<span class="icon-expand"></span>
-					</a>
-				</div>
-			</div> -->
 		</div>
 	</div>
 

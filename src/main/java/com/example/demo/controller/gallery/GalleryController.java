@@ -72,7 +72,7 @@ public class GalleryController {
             for (GalleryVO galleryVO : list) {
 //                galleryVO.setFileList(service.getFileList(galleryVO.getBno()));
                 if(service.getFileList(galleryVO.getBno()).size() > 0) {
-                    System.out.println("list::" + list);
+                    //System.out.println("list::" + list);
                     GalleryFileVO fileVO = service.getFileList(galleryVO.getBno()).get(0);
                     galleryVO.setFileUrl(fileVO.getUploadPath().replace("\\", "/") + "/" + fileVO.getUuid() + "_" + fileVO.getFileName());
                 }

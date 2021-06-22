@@ -64,9 +64,9 @@
                            <li id="acGetBtn"><a href="/account/get">계좌 조회</a></li>
                     </ul>
                 </li>
-                <li id="admin" class="nav-item"><a href="/adminPage" class="nav-link">Admin page</a></li>
                 <li id="loginBtn" class="nav-item"><a href="/" class="nav-link">Login</a></li>
                 <li id="logoutBtn" class="nav-item"><a href="/memberLogout" class="nav-link">Logout</a></li>
+                <li id="admin" class="nav-item"><a href="/adminPage" class="nav-link">Admin page</a></li>
             </ul>
         </div>
     </div>
@@ -75,4 +75,3 @@
 <script type="text/javascript" src="/resources/js/check.js"></script>
 
 </head>
-

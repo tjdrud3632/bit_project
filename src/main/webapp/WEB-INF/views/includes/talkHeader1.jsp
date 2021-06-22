@@ -12,8 +12,6 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -61,12 +59,12 @@
                 <li class="nav-item"><a href="/stock/stockPage" class="nav-link">News</a></li>
                 <li class="nav-item"><a href="/room" class="nav-link">STockTalk</a></li>
                 <li class="nav-item"><a href="/test" class="nav-link">Test</a></li>
-                <li class="dropdown nav-item show"><a class="nav-link" data-toggle="dropdown" href="#">My Page <span class="caret"></span></a>
+                <li class="dropdown nav-item"><a class="nav-link" data-toggle="dropdown" href="#">My Page <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                            <li><a href="/myPage">내 정보 변경</a></li>
                            <li id="asGetBtn"><a href="/asset/get">내 자산 조회</a></li>
-                           <li id="asRegBtn"><a href="/asset/register">자산 등록</a></li>
-                           <li id="acRegBtn"><a href="/account/register">계좌 개설</a></li>
+                          <!-- <li id="asRegBtn"><a href="/asset/register">자산 등록</a></li> -->
+                          <!-- <li id="acRegBtn"><a href="/account/register">계좌 개설</a></li> -->
                            <li id="acGetBtn"><a href="/account/get">계좌 조회</a></li>
                     </ul>
                 </li>

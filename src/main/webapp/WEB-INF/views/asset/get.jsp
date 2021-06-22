@@ -6,6 +6,12 @@
 
 <style>
 
+p{
+        margin-right: 40px;
+        margin-left: -40px;
+        text-align: center;
+}
+
 .btn.btn-primary {
      width: 350px;
 }
@@ -64,25 +70,16 @@
                 </div>
                 <br>
             </c:forEach>
-            <br>
-            <br>
-            <br>
-            <br>
+
 
             <div>
-                <canvas id="myChart" width="650" height="650"></canvas>
+               <canvas id="myChart" width="650" height="650" style="margin-top: 100px; margin-bottom: 100px"></canvas>
+               <p>
+                   <a href="/asset/modify" class="form-control btn btn-primary rounded submit px-3" style="margin:0 auto"> 수정 </a>
+                   &nbsp;&nbsp;
+                   <a href="/main" class="form-control btn btn-primary rounded submit px-3" style="margin:0 auto"> 뒤로가기 </a>
+               </p>
             </div>
-
-            <br>
-            <br>
-            <br>
-            <br>
-
-            <a href="/asset/modify" class="form-control btn btn-primary rounded submit px-3"> 수정 </a>
-            &nbsp;&nbsp;&nbsp;
-            <br></br>
-            <a href="/main" class="form-control btn btn-primary rounded submit px-3"> 뒤로가기 </a>
-
 
         </div>
     </div>
