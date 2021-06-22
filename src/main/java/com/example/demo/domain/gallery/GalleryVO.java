@@ -17,9 +17,6 @@ public class GalleryVO {
     private Date regdate;
     private Date updateDate;
 
-    private int replyCnt;
-    private int hits;    //조회수
-
     private String fileName;
     private List<GalleryFileVO> FileList;
     private String fileUrl;

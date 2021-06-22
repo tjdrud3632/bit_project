@@ -62,52 +62,52 @@
 
       <form role="form" action="/gallery/modify" method="post">
       
-        <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
-        <input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
-	    <input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
-		<input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
-      
- 
-<div class="form-group">
-  <label>Bno</label> 
-  <input class="form-control" name='bno' 
-     value='<c:out value="${gallery.bno}"/>' readonly="readonly">
-</div>
-
-<div class="form-group">
-  <label>Title</label> 
-  <input class="form-control" name='title' 
-    value='<c:out value="${gallery.title}"/>' >
-</div>
-
-<div class="form-group">
-  <label>Text area</label>
-  <textarea class="form-control" rows="3" name='content' ><c:out value="${gallery.content}"/></textarea>
-</div>
-
-<div class="form-group">
-  <label>Writer</label> 
-  <input class="form-control" name='writer'
-    value='<c:out value="${gallery.writer}"/>' readonly="readonly">            
-</div>
-
-<div class="form-group">
-  <label>RegDate</label> 
-  <input class="form-control" name='regDate'
-    value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${gallery.regdate}" />'  readonly="readonly">            
-</div>
-
-<div class="form-group">
-  <label>Update Date</label>
-  <input class="form-control" name='updateDate'
-    value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${gallery.updateDate}" />'  readonly="readonly">
-</div>
+            <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum }"/>'>
+            <input type='hidden' name='amount' value='<c:out value="${cri.amount }"/>'>
+            <input type='hidden' name='type' value='<c:out value="${cri.type }"/>'>
+            <input type='hidden' name='keyword' value='<c:out value="${cri.keyword }"/>'>
 
 
+            <div class="form-group">
+              <label>Bno</label>
+              <input class="form-control" name='bno'
+                 value='<c:out value="${gallery.bno}"/>' readonly="readonly">
+            </div>
 
-  <button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
-  <button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
-  <button type="submit" data-oper='list' class="btn btn-info">List</button>
+            <div class="form-group">
+              <label>Title</label>
+              <input class="form-control" name='title'
+                value='<c:out value="${gallery.title}"/>' >
+            </div>
+
+            <div class="form-group">
+              <label>Text area</label>
+              <textarea class="form-control" rows="3" name='content' ><c:out value="${gallery.content}"/></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Writer</label>
+              <input class="form-control" name='writer'
+                value='<c:out value="${gallery.writer}"/>' readonly="readonly">
+            </div>
+
+            <div class="form-group">
+              <label>RegDate</label>
+              <input class="form-control" name='regDate'
+                value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${gallery.regdate}" />'  readonly="readonly">
+            </div>
+
+            <div class="form-group">
+              <label>Update Date</label>
+              <input class="form-control" name='updateDate'
+                value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${gallery.updateDate}" />'  readonly="readonly">
+            </div>
+
+
+
+              <button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
+              <button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
+              <button type="submit" data-oper='list' class="btn btn-info">List</button>
 </form>
 
 
@@ -141,7 +141,7 @@
         
         <div class='uploadResult'>
              <ul id="uploadResult">
-                 <img src="" id="result-image" class="" >
+                 <img src="${gallery.url}" id="result-image" class="" >
              </ul>
         </div>
       </div>
@@ -154,53 +154,6 @@
 </div>
 <!-- /.row -->
 
-<script type="text/javascript">
-
-window.onload = function(){
-
-       var fileName = '<c:out value="${gallery.fileName}"/>';
-       console.log(fileName);
-
-       if(fileName != ''){
-           $.ajax({
-                url: '/gallery/show',
-                type: 'POST',
-                data: fileName,
-                success: function(data){
-                    console.log(data);
-                    showUrl(data);
-                },
-                error: function(){
-                     console.log("getS3URL fail");
-                }
-           });
-       }
-
-}
-
-    function showUrl(data){
-
-            var fileName = '<c:out value="${gallery.fileName}"/>';
-            var setURL = $("#uploadResult");
-            var getURL = data;
-            var s3URL = getURL.slice(0, -3);
-            console.log("s3URL" + s3URL);
-
-            var extension = s3URL.slice(-3);
-            console.log(extension);
-
-            if(extension == 'jpg' || extension == 'png' ){
-                 $('#result-image').attr("src", s3URL);
-                 $('#result-image').attr("class", fileName);
-
-            } else {
-                 $('#result-image').attr("src", '/resources/img/file.png');
-                 $('#result-image').attr("class", fileName);
-            }
-
-       }
-
-</script>
 
 <script type="text/javascript">
 
@@ -219,49 +172,54 @@ $(document).ready(function() {
 //remove면 컨트롤러에게 전송
 	    if(operation === 'remove'){
 
-           var fileName = $('#result-image').attr("class");
+               var fileName = $('#result-image').attr("class");
 
-            $.ajax({
-                     type: 'POST',
-                     url: '/gallery/delete',
-                     data: fileName,
-                     processData: false,
-                     contentType: false
-                 }).fail(function(error){
-                     console.log("s3 delete fail");
-                     alert(error);
-                 })
+                $.ajax({
+                         type: 'POST',
+                         url: '/gallery/delete',
+                         data: fileName,
+                         processData: false,
+                         contentType: false
+                     }).fail(function(error){
+                         console.log("s3 delete fail");
+                         alert(error);
+                     })
 
-	         formObj.attr("action", "/gallery/remove");
-	      
+                formObj.attr("action", "/gallery/remove");
+
 	    }else if(operation === 'list'){
 
-	      //move to list
-	      formObj.attr("action", "/gallery/list").attr("method","get");
-	      
-	      var pageNumTag = $("input[name='pageNum']").clone();
-	      var amountTag = $("input[name='amount']").clone();
-	      var keywordTag = $("input[name='keyword']").clone();
-	      var typeTag = $("input[name='type']").clone();      
-	      
-	      formObj.empty();
-	      
-	      formObj.append(pageNumTag);
-	      formObj.append(amountTag);
-	      formObj.append(keywordTag);
-	      formObj.append(typeTag);	  
+              //move to list
+              formObj.attr("action", "/gallery/list").attr("method","get");
+
+              var pageNumTag = $("input[name='pageNum']").clone();
+              var amountTag = $("input[name='amount']").clone();
+              var keywordTag = $("input[name='keyword']").clone();
+              var typeTag = $("input[name='type']").clone();
+
+              formObj.empty();
+
+              formObj.append(pageNumTag);
+              formObj.append(amountTag);
+              formObj.append(keywordTag);
+              formObj.append(typeTag);
 	      
 	    }else if(operation === 'modify'){
 	        
 	        console.log("submit clicked");
             var fileName = $('#result-image').attr('class');
+            var url = $('#result-image').attr('src');
+
 	        var file = $("#fileName");
 
             if(fileName != ''){
                 str += "<input type='hidden' name='fileName' value=''>";
+                str += "<input type='hidden' name='url' value=''>";
 
                 formObj.append(str).submit();
                  $("input[name='fileName']").attr("value", fileName);
+                 $("input[name='url']").attr("value", url);
+
             }
 
         }

@@ -150,7 +150,7 @@
         
         <div class='uploadResult'>
            <ul id="uploadResult">
-               <img src="" id="result-image" class="" >
+               <img src="${gallery.url}"id="result-image" readonly>
            </ul>
          </div>
       </div>
@@ -190,52 +190,7 @@
 </div>
 
 
-<script>
 
-window.onload = function(){
-
-       var fileName = '<c:out value="${gallery.fileName}"/>';
-       console.log(fileName);
-
-      if(fileName != ''){
-           $.ajax({
-                url: '/gallery/show',
-                type: 'POST',
-                data: fileName,
-                success: function(data){
-                    console.log(data);
-                    showUrl(data);
-                },
-                error: function(){
-                     console.log("getS3URL fail");
-                }
-           });
-      }
-}
-
-       function showUrl(data){
-
-            var setURL = $("#uploadResult");
-            var getURL = data;
-            var s3URL = getURL.slice(0, -3);
-            console.log("s3URL" + s3URL);
-
-            var extension = s3URL.slice(-3);
-            console.log(extension);
-
-            if(extension == 'jpg' || extension == 'png' ){
-                 $('#result-image').attr("src", s3URL);
-
-            } else {
-                 $('#result-image').attr("src", '/resources/img/file.png');
-
-            }
-
-       }
-
-
-
-</script>
 
 
 <script type="text/javascript">

@@ -12,15 +12,15 @@ public interface GalleryMapper {
 
     public List<GalleryVO> getList();
 
-    public void insert(GalleryVO gallery);
+    public void insert(GalleryS3DTO gallery);
 
-    public Integer insertSelectKey(GalleryVO gallery);
+    public Integer insertSelectKey(GalleryS3DTO gallery);
 
-    public GalleryVO read(Long bno);
+    public GalleryS3DTO read(Long bno);
 
     public int delete(Long bno);
 
-    public int update(GalleryVO gallery);
+    public int update(GalleryS3DTO gallery);
 
     public int getTotalCount(Criteria cri);
 
@@ -32,5 +32,5 @@ public interface GalleryMapper {
 
     public void updateHit(@Param("bno") Long bno);
 
-    public List<GalleryS3DTO> getFilesByBno();
+    public List<GalleryS3DTO> getFiles();
 }

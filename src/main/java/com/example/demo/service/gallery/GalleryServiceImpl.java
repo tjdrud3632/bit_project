@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,7 +35,7 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Transactional
     @Override
-    public void register(GalleryVO gallery) {
+    public void register(GalleryS3DTO gallery) {
 
         Member member = repository.findByMemberId(gallery.getWriter());
         Long memberNO = member.getMemberNo();
@@ -43,42 +44,36 @@ public class GalleryServiceImpl implements GalleryService {
         mapper.insertSelectKey(gallery);
 
         if(gallery.getFileName() != ""){
-            AttachFileDTO attachFileDTO = new AttachFileDTO();
-            attachFileDTO.setFileName(gallery.getFileName());
-            attachFileDTO.setBno(gallery.getBno());
 
-            fileMapper.insert(attachFileDTO);
+            fileMapper.insert(gallery);
         }
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
-    public GalleryVO get(Long bno) {
+    public GalleryS3DTO get(Long bno) {
 
-        GalleryVO gallery =  mapper.read(bno);
-        String fileName = fileMapper.getFileNameByBno(bno);
-        gallery.setFileName(fileName);
+        GalleryS3DTO gallery =  mapper.read(bno);
+
+       // System.out.println("read: "+ gallery);
 
         return gallery;
     }
 
     @Transactional
     @Override
-    public boolean modify(GalleryVO gallery) {
+    public boolean modify(GalleryS3DTO gallery) {
 //다 지워주고
         fileMapper.deleteAll(gallery.getBno());
 //update가 성공이면
         boolean modifyResult = mapper.update(gallery) == 1;
-//update가 성공적이고 파일이 비어있지 않다면 (파일이 있다면)
-        if(modifyResult && gallery.getFileList() != null && gallery.getFileList().size() > 0){
-            gallery.getFileList().forEach(file ->{
-//다시 게시글 번호와 파일을 삽입함
-                file.setBno(gallery.getBno());
-              //  fileMapper.insert(file);
-            });
+
+        if(modifyResult && gallery.getFileName() != "" && gallery.getUrl() != null){
+            fileMapper.insert(gallery);
         }
         return modifyResult;
     }
+
     @Transactional
     @Override
     public boolean remove(Long bno) {
@@ -102,9 +97,13 @@ public class GalleryServiceImpl implements GalleryService {
         return mapper.getTotalCount(cri);
     }
 
+    @Transactional
     @Override
     public List<GalleryS3DTO> getFiles() {
-        return mapper.getFilesByBno();
+
+        List<GalleryS3DTO> gallery = mapper.getFiles();
+       // System.out.println("list:"+ gallery);
+        return gallery;
     }
 
 

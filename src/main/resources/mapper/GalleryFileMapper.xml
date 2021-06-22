@@ -5,8 +5,8 @@
 <mapper namespace="com.example.demo.mapper.gallery.GalleryFileMapper">
 
     <insert id="insert">
-        insert into gallery_file (fno, bno, filename)
-        values (seq_gallery_file.nextval, #{bno}, #{fileName} )
+        insert into gallery_file (fno, bno, url, filename)
+        values (seq_gallery_file.nextval, #{bno}, #{url}, #{fileName})
     </insert>
 
     <delete id="delete">
@@ -29,11 +29,14 @@
         where uploadpath = to_char(sysdate -1, 'yyyy\mm\dd')
     </select>
 
-    <select id="getFileNameByBno" resultType="String">
-        select filename from gallery_file
+    <select id="getInfoByBno" resultType="com.example.demo.domain.gallery.GalleryS3DTO">
+        select * from gallery_file
         where bno = #{bno}
     </select>
 
+    <select id="getFiles" resultType="com.example.demo.domain.gallery.GalleryS3DTO">
+        select * from gallery_file
+    </select>
 
 
 </mapper>

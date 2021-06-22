@@ -2,12 +2,13 @@ package com.example.demo.mapper.gallery;
 
 import com.example.demo.domain.gallery.AttachFileDTO;
 import com.example.demo.domain.gallery.GalleryFileVO;
+import com.example.demo.domain.gallery.GalleryS3DTO;
 
 import java.util.List;
 
 public interface GalleryFileMapper {
 
-    public void insert(AttachFileDTO file);
+    public void insert(GalleryS3DTO file);
 
     public void delete(Long fno);
 
@@ -17,5 +18,8 @@ public interface GalleryFileMapper {
 
     public List<GalleryFileVO> getOldFiles();
 
-    public String getFileNameByBno(Long bno);
+    public GalleryS3DTO getInfoByBno(Long bno);
+
+    public List<GalleryS3DTO> getFiles();
 }
+

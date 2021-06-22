@@ -55,13 +55,15 @@
         values (#{bno}, #{mno},#{title}, #{content}, #{writer})
     </insert>
 
-    <select id="read" resultType="com.example.demo.domain.gallery.GalleryVO">
-        select * from gallery
-        where bno = #{bno}
+    <select id="read" resultType="com.example.demo.domain.gallery.GalleryS3DTO">
+        select * from gallery, gallery_file
+        where gallery.bno = gallery_file.bno
+        and gallery.bno = #{bno}
+
     </select>
 
     <delete id="delete">
-        delete gallery where bno = #{bno}
+        delete from gallery where bno = #{bno}
     </delete>
 
     <update id="update">
@@ -107,8 +109,9 @@
     </select>
 
 
-    <select id="getFilesByBno" resultType="com.example.demo.domain.gallery.GalleryS3DTO">
-        select * from gallery_file
+    <select id="getFiles" resultType="com.example.demo.domain.gallery.GalleryS3DTO">
+        select * from gallery, gallery_file
+        where gallery.bno = gallery_file.bno
     </select>
 
 </mapper>

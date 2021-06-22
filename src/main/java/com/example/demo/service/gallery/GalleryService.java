@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface GalleryService {
 
-    public void register(GalleryVO gallery);
+    public void register(GalleryS3DTO gallery);
 
-    public GalleryVO get(Long bno);
+    public GalleryS3DTO get(Long bno);
 
-    public boolean modify(GalleryVO gallery);
+    public boolean modify(GalleryS3DTO gallery);
 
     public boolean remove(Long bno);
 
