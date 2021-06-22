@@ -64,14 +64,14 @@
             </div>
         </div>
     </div>
-    </section>
+</section>
 </body>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
-
-    $("#form").submit(function(e){
-        e.preventDefault();
+    var alertTrigger;
+    $("#modify").on('click', function(){
 
         var form = document.getElementById("form");
 
@@ -98,13 +98,21 @@
             alert("연락처를 입력해 주세요.");
             return false;
         }
+
        form.submit(); //정지
-       alert("계좌 수정 완료되었습니다.");
-       });
+
+
+       alertTrigger = 1;
+
+        if(alertTrigger == 1 ){
+            alert("계좌 수정 완료되었습니다.");
+             }
+    });
 
     var form = $("#form");
     $("#delete").on("click", function(){
         form.attr("action", "/account/remove").attr("method", "post");
+        alertTrigger = 0;
         form.submit();
         alert("계좌 삭제 완료되었습니다.");
     });
