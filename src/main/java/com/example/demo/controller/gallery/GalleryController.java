@@ -49,8 +49,11 @@ public class GalleryController {
     }
 
     @PostMapping("register")
-    public String register(GalleryVO gallery, RedirectAttributes rttr){
+    public String register(GalleryVO gallery, String fileName, RedirectAttributes rttr){
 
+        if(fileName != ""){
+            gallery.setFileName(fileName);
+        }
         service.register(gallery);
         rttr.addFlashAttribute("result", gallery.getBno());
 

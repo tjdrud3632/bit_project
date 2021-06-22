@@ -2,6 +2,8 @@ package com.example.demo.service.gallery;
 
 
 import com.example.demo.domain.Criteria;
+
+import com.example.demo.domain.gallery.AttachFileDTO;
 import com.example.demo.domain.gallery.GalleryFileVO;
 import com.example.demo.domain.gallery.GalleryVO;
 import com.example.demo.domain.member.entity.Member;
@@ -39,16 +41,13 @@ public class GalleryServiceImpl implements GalleryService {
 
         mapper.insertSelectKey(gallery);
 
-//file 없다
-        if(gallery.getFileList() == null || gallery.getFileList().size() <= 0){
-            return;
-        }
-//게시글번호를 fileVO객체 bno에 삽입, 파일 insert
-        gallery.getFileList().forEach(file -> {
+        if(gallery.getFileName() != ""){
+            AttachFileDTO attachFileDTO = new AttachFileDTO();
+            attachFileDTO.setFileName(gallery.getFileName());
+            attachFileDTO.setBno(gallery.getBno());
 
-            file.setBno(gallery.getBno());
-            fileMapper.insert(file);
-        });
+           // fileMapper.insert(attachFileDTO);
+        }
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

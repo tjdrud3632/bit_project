@@ -20,6 +20,7 @@ public class GalleryVO {
     private int replyCnt;
     private int hits;    //조회수
 
+    private String fileName;
     private List<GalleryFileVO> FileList;
     private String fileUrl;
 

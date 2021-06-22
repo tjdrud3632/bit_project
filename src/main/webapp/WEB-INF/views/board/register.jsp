@@ -224,11 +224,8 @@ $(document).ready(function(e){
              $('#result-image').attr("class", fileName);
         }
 
-
   }
 
-
-  
 });
 
 </script>

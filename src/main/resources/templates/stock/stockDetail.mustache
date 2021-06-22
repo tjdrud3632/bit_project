@@ -2,22 +2,29 @@
 
 
 <body>
-<section class="hero-wrap hero-wrap-2" style="background-image: url('/traders/images/bg_wave.jpg');" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('/traders/images/bg_wave.jpg');"
+         data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
             <div class="col-md-9 ftco-animate text-center">
                 <p class="mb-2 bread" style="font-size:45px;">News</p>
-                <p class="breadcrumbs"><span class="mr-2"><a href="/main">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>News <i class="ion-ios-arrow-forward"></i></span></p>
+                <p class="breadcrumbs"><span class="mr-2"><a href="/main">Home <i class="ion-ios-arrow-forward"></i></a></span>
+                    <span>News <i class="ion-ios-arrow-forward"></i></span></p>
             </div>
         </div>
     </div>
 </section>
 
 
-
 <!-- loader -->
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#F96D00"/>
+    </svg>
+</div>
 
 
 <script src="/traders/js/jquery.min.js"></script>
@@ -45,7 +52,8 @@
 
                 <form id="form">
                     <input type="date" value="" class="form-control rounded-left"><br></br>
-                    <input type="submit" value="날짜 선택" class="form-control btn btn-primary rounded submit px-3"><br></br>
+                    <input type="submit" value="날짜 선택"
+                           class="form-control btn btn-primary rounded submit px-3"><br></br>
                 </form>
                 <div>주식차트</div>
                 <div id="chart">
@@ -66,14 +74,13 @@
                 </div>
                 <br></br>
 
-                <span><a href="/stock/news" class="form-control btn btn-primary rounded submit px-3">검색어로 뉴스 검색하기</a></span>
-
-</body>
-</div>
-</div>
-</div>
+                <span><a href="/stock/news"
+                         class="form-control btn btn-primary rounded submit px-3">검색어로 뉴스 검색하기</a></span>
+            </div>
+        </div>
+    </div>
 </section>
-
+</body>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
             $("#form").submit(function(e){
@@ -84,14 +91,29 @@
                 var stock_code = {{stockInfo.stockCode}};
                 //model 에서 가져온 주식 가격
                 var stock_price = {{stockInfo.stockPrice}};
+                //현재 날짜
+                var nowDate = new Date();
+                var year = nowDate.getFullYear();
+                var month = nowDate.getMonth() + 1;
+                var day = nowDate.getDate();
                 //입력된 날짜
                 var date = $("#form input[type='date']").val();
-                //아무것도 없을때 default 날짜 설정
-                if(date == ""){
-                    var today = new Date();
-                    var year = today.getFullYear()-3;
-                    var month = today.getMonth() + 1;
-                    var day = today.getDate();
+                var dateSplit = date.split('-');
+                //오늘 이후의 날짜를 선택했을 때
+                if(dateSplit[0]>= year && dateSplit[1]>= month && dateSplit[2] >= day){
+                    alert('잘못된 기간을 입력했습니다. 3년전 날짜를 기본 날짜로 지정합니다');
+                    year = new String(nowDate.getFullYear()-3);
+                    month = new String(nowDate.getMonth() + 1);
+                    month.length == 1 ? month= '0' + month : month = '' + month;
+                    day.length == 1 ? day = '0' + day :day = ''+ day;;
+                    date = year + "-" + month + "-" + day;
+                }else if(date.length == 0){
+                    //아무것도 없을때 default 날짜 설정
+                    alert('잘못된 기간을 입력했습니다. 3년전 날짜를 기본 날짜로 지정합니다');
+                    year = new String(nowDate.getFullYear()-3);
+                    month = new String(nowDate.getMonth() + 1);
+                    month.length == 1 ? month= '0' + month : month = '' + month;
+                    day.length == 1 ? day = '0' + day :day = ''+ day;;
                     date = year + "-" + month + "-" + day;
                 }
                 //종가기준 주식 차트의 ajax 데이터 설정
@@ -110,6 +132,21 @@
                             ,{});
                     },
                 });
+                //주식 예측 요청 ajax 를 위한 데이터 설정
+                /*var data_for_predict = {'stock_code': stock_code , 'stock_name': stock_name};
+                //주식 예측 요청을 하는 ajax
+                $.ajax({
+                    url:'http://15.165.141.67:8000/stock/stock_predict',
+                    method:'GET',
+                    data:data_for_predict,
+                    contentType: "application/json; charset=UTF-8",
+                    success: function(result){
+                            console.log(result);
+                            Plotly.plot('chart',
+                            JSON.parse(result.stockGraph)
+                            ,{});
+                    },
+                });*/
             });
 </script>
 <script>
@@ -118,6 +155,7 @@
         data = {'keyword':`{{stockInfo.stockName}}` ,
                 'news_num': 5,
                  'start_num' : 1};
+                 //15.165.141.67
         $.ajax({
             url:'http://15.165.141.67:8000/news/news',
             method:'GET',
@@ -127,10 +165,9 @@
                 Object.keys(result).forEach(function(key){
                     str += '<div class="news"><div class="content'+ key + '">' +
                     '<a href="'+ result[key]['url'] +'">'+ result[key]['title'] +
-                    '</a></div><div class="text">'+ result[key]['text'] +'</div></div><br>';
+                    '</a></div><div class="text">'+ result[key]['text'] +'</div></div>';
                 });
                 $("#news").append(str);
-
             },
         });
     });

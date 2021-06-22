@@ -1,5 +1,6 @@
 package com.example.demo.controller.gallery;
 
+
 import com.example.demo.domain.gallery.AttachFileDTO;
 import com.example.demo.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +48,15 @@ public class UploadController1 {
     @PostMapping("/upload")
     @ResponseBody
     public String upload(@RequestParam("data") MultipartFile file) throws IOException {
+
         log.info("/upload 도착!");
-        return s3Uploader.upload(file, "static");
+        AttachFileDTO attachFileDTO = new AttachFileDTO();
+        String fileName = file.getOriginalFilename();
+        System.out.println(fileName);
+        attachFileDTO.setFileName(fileName);
+        System.out.println(attachFileDTO.getFileName());
+        return s3Uploader.upload(file, "upload");
+
     }
 
     @GetMapping("/uploadForm")
@@ -142,12 +150,12 @@ public class UploadController1 {
                 File saveFile = new File(uploadPath, uploadFileName);
                 multipartFile.transferTo(saveFile);
 
-                attachDTO.setUuid(uuid.toString());
-                attachDTO.setUploadPath(uploadFolderPath);
+                //attachDTO.setUuid(uuid.toString());
+                //attachDTO.setUploadPath(uploadFolderPath);
 
                 if (checkImageType(saveFile)) {
 
-                    attachDTO.setImage(true); //image는 boolean타입
+                    //attachDTO.setImage(true); //image는 boolean타입
                     //썸네일 이미지 표시 s_
 
 
