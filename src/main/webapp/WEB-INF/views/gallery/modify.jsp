@@ -135,10 +135,7 @@
       <div class="panel-heading">Files</div>
       <!-- /.panel-heading -->
       <div class="panel-body">
-        <div class="form-group uploadDiv">
-            <input type="file" id="uploadFile" name="uploadFile" readonly/>
-        </div>
-        
+
         <div class='uploadResult'>
              <ul id="uploadResult">
                  <img src="${gallery.url}" id="result-image" class="" >
