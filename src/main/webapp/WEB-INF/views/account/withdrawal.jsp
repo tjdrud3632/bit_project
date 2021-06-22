@@ -89,8 +89,6 @@
         }
 
        form.submit(); //정지
-       alert("출금 완료되었습니다.");
-
    });
 
 </script>

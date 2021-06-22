@@ -5,6 +5,7 @@ import com.example.demo.domain.Criteria;
 
 import com.example.demo.domain.gallery.AttachFileDTO;
 import com.example.demo.domain.gallery.GalleryFileVO;
+import com.example.demo.domain.gallery.GalleryS3DTO;
 import com.example.demo.domain.gallery.GalleryVO;
 import com.example.demo.domain.member.entity.Member;
 import com.example.demo.domain.member.entity.MemberRepository;
@@ -86,9 +87,9 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     @Override
-    public List<GalleryVO> getList(Criteria cri) {
+    public List<GalleryVO> getList() {
 
-        return mapper.getListWithPaging(cri);
+        return mapper.getList();
     }
 
     @Override
@@ -99,6 +100,11 @@ public class GalleryServiceImpl implements GalleryService {
     @Override
     public int getTotal(Criteria cri) {
         return mapper.getTotalCount(cri);
+    }
+
+    @Override
+    public List<GalleryS3DTO> getFiles() {
+        return mapper.getFilesByBno();
     }
 
 

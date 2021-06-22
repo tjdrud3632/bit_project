@@ -199,7 +199,7 @@ window.onload = function(){
 
       if(fileName != ''){
            $.ajax({
-                url: '/show',
+                url: '/gallery/show',
                 type: 'POST',
                 data: fileName,
                 success: function(data){
@@ -238,9 +238,8 @@ window.onload = function(){
 </script>
 
 
-
-
 <script type="text/javascript">
+
 $(document).ready(function() {
   
   var operForm = $("#operForm"); 
@@ -260,6 +259,7 @@ $(document).ready(function() {
     
   });  
 });
+
 </script>
 
 

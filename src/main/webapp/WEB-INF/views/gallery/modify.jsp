@@ -71,13 +71,13 @@
 <div class="form-group">
   <label>Bno</label> 
   <input class="form-control" name='bno' 
-     value='<c:out value="${gallery.bno }"/>' readonly="readonly">
+     value='<c:out value="${gallery.bno}"/>' readonly="readonly">
 </div>
 
 <div class="form-group">
   <label>Title</label> 
   <input class="form-control" name='title' 
-    value='<c:out value="${gallery.title }"/>' >
+    value='<c:out value="${gallery.title}"/>' >
 </div>
 
 <div class="form-group">
@@ -98,12 +98,12 @@
 </div>
 
 <div class="form-group">
-  <label>Update Date</label> 
+  <label>Update Date</label>
   <input class="form-control" name='updateDate'
-    value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${gallery.updateDate}" />'  readonly="readonly">            
+    value='<fmt:formatDate pattern = "yyyy/MM/dd" value = "${gallery.updateDate}" />'  readonly="readonly">
 </div>
 
-          
+
 
   <button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
   <button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
@@ -128,56 +128,6 @@
 
 
 
-<style>
-.uploadResult {
-  width:100%;
-  background-color: gray;
-}
-.uploadResult ul{
-  display:flex;
-  flex-flow: row;
-  justify-content: center;
-  align-items: center;
-}
-.uploadResult ul li {
-  list-style: none;
-  padding: 10px;
-  align-content: center;
-  text-align: center;
-}
-.uploadResult ul li img{
-  width: 100px;
-}
-.uploadResult ul li span {
-  color:white;
-}
-.bigPictureWrapper {
-  position: absolute;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  top:0%;
-  width:100%;
-  height:100%;
-  background-color: gray; 
-  z-index: 100;
-  background:rgba(255,255,255,0.5);
-}
-.bigPicture {
-  position: relative;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.bigPicture img {
-  width:600px;
-}
-
-</style>
-
-
-
 <div class="row">
   <div class="col-lg-12">
     <div class="panel panel-default">
@@ -189,10 +139,10 @@
             <input type="file" id="uploadFile" name="uploadFile" accept="image/*" />
         </div>
         
-        <div class='uploadResult'> 
-          <ul>
-          
-          </ul>
+        <div class='uploadResult'>
+             <ul id="uploadResult">
+                 <img src="" id="result-image" class="" >
+             </ul>
         </div>
       </div>
       <!--  end panel-body -->
@@ -205,6 +155,55 @@
 <!-- /.row -->
 
 <script type="text/javascript">
+
+window.onload = function(){
+
+       var fileName = '<c:out value="${gallery.fileName}"/>';
+       console.log(fileName);
+
+       if(fileName != ''){
+           $.ajax({
+                url: '/gallery/show',
+                type: 'POST',
+                data: fileName,
+                success: function(data){
+                    console.log(data);
+                    showUrl(data);
+                },
+                error: function(){
+                     console.log("getS3URL fail");
+                }
+           });
+       }
+
+}
+
+    function showUrl(data){
+
+            var fileName = '<c:out value="${gallery.fileName}"/>';
+            var setURL = $("#uploadResult");
+            var getURL = data;
+            var s3URL = getURL.slice(0, -3);
+            console.log("s3URL" + s3URL);
+
+            var extension = s3URL.slice(-3);
+            console.log(extension);
+
+            if(extension == 'jpg' || extension == 'png' ){
+                 $('#result-image').attr("src", s3URL);
+                 $('#result-image').attr("class", fileName);
+
+            } else {
+                 $('#result-image').attr("src", '/resources/img/file.png');
+                 $('#result-image').attr("class", fileName);
+            }
+
+       }
+
+</script>
+
+<script type="text/javascript">
+
 $(document).ready(function() {
 
 
@@ -219,9 +218,24 @@ $(document).ready(function() {
 	    console.log(operation);
 //remove면 컨트롤러에게 전송
 	    if(operation === 'remove'){
-	      formObj.attr("action", "/gallery/remove");
+
+           var fileName = $('#result-image').attr("class");
+
+            $.ajax({
+                     type: 'POST',
+                     url: '/gallery/delete',
+                     data: fileName,
+                     processData: false,
+                     contentType: false
+                 }).fail(function(error){
+                     console.log("s3 delete fail");
+                     alert(error);
+                 })
+
+	         formObj.attr("action", "/gallery/remove");
 	      
 	    }else if(operation === 'list'){
+
 	      //move to list
 	      formObj.attr("action", "/gallery/list").attr("method","get");
 	      
@@ -240,191 +254,95 @@ $(document).ready(function() {
 	    }else if(operation === 'modify'){
 	        
 	        console.log("submit clicked");
-	        
-	        var str = "";
-	        
-	        $(".uploadResult ul li").each(function(i, obj){
-	          
-	          var jobj = $(obj);
-	          
-	          console.dir(jobj);
-	          
-	          str += "<input type='hidden' name='fileList["+i+"].fileName' value='"+jobj.data("filename")+"'>";
-	          str += "<input type='hidden' name='fileList["+i+"].uuid' value='"+jobj.data("uuid")+"'>";
-	          str += "<input type='hidden' name='fileList["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
-	          str += "<input type='hidden' name='fileList["+i+"].fileType' value='"+ jobj.data("type")+"'>";
-	          
-	        });
-	        formObj.append(str).submit();
+            var fileName = $('#result-image').attr('class');
+	        var file = $("#fileName");
+
+            if(fileName != ''){
+                str += "<input type='hidden' name='fileName' value=''>";
+
+                formObj.append(str).submit();
+                 $("input[name='fileName']").attr("value", fileName);
+            }
+
         }
-    
 	    formObj.submit();
 	  });
 
-});
-</script>
+	   var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+        var maxSize = 5242880; //5MB
 
+        function checkExtension(fileName, fileSize){
 
-<script>
-
-$(document).ready(function() {
-  (function(){
-    
-    var bno = '<c:out value="${gallery.bno}"/>';
-    
-    $.getJSON("/gallery/getFileList", {bno: bno}, function(arr){
-    
-      console.log(arr);
-      
-      var str = "";
-
-
-      $(arr).each(function(i, file){
-          
-          //image type
-          if(file.fileType){
-            var fileCallPath =  encodeURIComponent( file.uploadPath+ "/s_"+file.uuid +"_"+file.fileName);
-            
-            str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' "
-            str +=" data-filename='"+file.fileName+"' data-type='"+file.fileType+"' ><div>";
-            str += "<span> "+ file.fileName+"</span>";
-            str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' "
-            str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-            str += "<img src='/display?fileName="+fileCallPath+"'>";
-            str += "</div>";
-            str +"</li>";
-          }else{
-              
-            str += "<li data-path='"+file.uploadPath+"' data-uuid='"+file.uuid+"' "
-            str += "data-filename='"+file.fileName+"' data-type='"+file.fileType+"' ><div>";
-            str += "<span> "+ file.fileName+"</span><br/>";
-            str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' "
-            str += " class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-            str += "<img src='/resources/img/file.png'></a>";
-            str += "</div>";
-            str +"</li>";
+          if(fileSize >= maxSize){
+                alert("파일 사이즈 초과");
+                return false;
           }
-       });
 
-      
-      $(".uploadResult ul").html(str);
-      
-    });//end getjson
-  })();//end function
-  
-  
-  $(".uploadResult").on("click", "button", function(e){
-	    
-    console.log("delete file");
-      
-    if(confirm("Remove this file? ")){
-    
-      var targetLi = $(this).closest("li");
-      targetLi.remove();
+          if(regex.test(fileName)){
+            alert("해당 종류의 파일은 업로드할 수 없습니다.");
+            return false;
+          }
+          return true;
+        }
 
-    }
-  });  
-  
-  var imgFile;
-  var regex = new RegExp("(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$");
-  var maxSize = 5242880; //5MB
 
-  function checkExtension(fileName, fileSize){
-      if ($('#uploadFile').val() == "") {
-          alert("사진을 첨부해주세요.");
-          return 0;
-      }
+        $("input[type='file']").change(function(e){
 
-      if (imgFile != "" && imgFile != null) {
-              fileSize = document.getElementById("uploadFile").files[0].size;
-              console.log(regex.test(imgFile));
-              if (!regex.test(imgFile)){
-                  alert("해당 종류의 파일은 업로드할 수 없습니다.");
-                  return 0
-              } else if(fileSize >= maxSize){
-                  alert("파일 사이즈 초과");
-                  return 0;
+              var file = $('#uploadFile')[0].files[0];
+              var formData = new FormData();
+
+              //console.log(file.name);
+             //console.log(file.size);
+
+          //확장자 체크
+                if(!checkExtension(file.name, file.size) ){
+                      return false;
+                }
+
+           //가상의 데이타
+                formData.append('data', file);
+
+              $.ajax({
+                  type: 'POST',
+                  url: '/gallery/upload',
+                  data: formData,
+                  processData: false,
+                  contentType: false
+              }).done(function (data){
+                  console.log("data: " + data);
+                  showUploadResult(data);
+              }).fail(function(error){
+                  console.log("s3 upload fail");
+                  alert(error);
+              })
+
+        });
+
+        function showUploadResult(data){
+              var file = $('#uploadFile')[0].files[0];
+              var fileName = file.name;
+              console.log(file.name);
+              var uploadUL = $("#uploadResult");
+              var s3URL = data;
+
+              var extension = s3URL.slice(-3);
+              console.log(extension);
+
+              if(extension == 'jpg' || extension == 'png' ){
+                   $('#result-image').attr("src", data);
+                   $('#result-image').attr("class", fileName);
+              } else {
+                   $('#result-image').attr("src", '/resources/img/file.png');
+                   $('#result-image').attr("class", fileName);
               }
-          }
-          return 1;
-      }
-  
-  $("input[type='file']").change(function(e){
 
-    var formData = new FormData();
-    
-    var inputFile = $("input[name='uploadFile']");
-    
-    var files = inputFile[0].files;
-    
-    for(var i = 0; i < files.length; i++){
+        }
 
-      if(!checkExtension(files[i].name, files[i].size)){
-          $("input[name='uploadFile']").val("");
-          return false;
-      }
-      formData.append("uploadFile", files[i]);
-      
-    }
-    
-    $.ajax({
-      url: '/uploadAjaxAction',
-      processData: false, 
-      contentType: false,data: 
-      formData,type: 'POST',
-      dataType:'json',
-        success: function(result){
-          console.log(result); 
-		  showUploadResult(result); //업로드 결과 처리 함수 
+      });
 
-      }
-    }); //$.ajax
-    
-  });    
-
-  function showUploadResult(uploadResultArr){
-	    
-    if(!uploadResultArr || uploadResultArr.length == 0){ return; }
-    
-    var uploadUL = $(".uploadResult ul");
-    
-    var str ="";
-    
-    $(uploadResultArr).each(function(i, obj){
-		
-		if(obj.image){
-			var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
-			str += "<li data-path='"+obj.uploadPath+"'";
-			str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
-			str +" ><div>";
-			str += "<span> "+ obj.fileName+"</span>";
-			str += "<button type='button' data-file=\'"+fileCallPath+"\' "
-			str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-			str += "<img src='/display?fileName="+fileCallPath+"'>";
-			str += "</div>";
-			str +"</li>";
-		}else{
-			var fileCallPath =  encodeURIComponent( obj.uploadPath+"/"+ obj.uuid +"_"+obj.fileName);			      
-		    var fileLink = fileCallPath.replace(new RegExp(/\\/g),"/");
-		      
-			str += "<li "
-			str += "data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"' ><div>";
-			str += "<span> "+ obj.fileName+"</span>";
-			str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='file' " 
-			str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
-			str += "<img src='/resources/img/file.png'></a>";
-			str += "</div>";
-			str +"</li>";
-		}
-
-    });
-    
-    uploadUL.append(str);
-  }
-  
 });
-
 </script>
 
-  
+
+
 <%@include file="../includes/boardFooter.jsp"%>

@@ -1,10 +1,13 @@
 package com.example.demo.controller.gallery;
 
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.example.demo.config.SessionMember;
 import com.example.demo.domain.Criteria;
 import com.example.demo.domain.PageDTO;
 import com.example.demo.domain.gallery.GalleryFileVO;
+import com.example.demo.domain.gallery.GalleryS3DTO;
 import com.example.demo.domain.gallery.GalleryVO;
+import com.example.demo.service.S3Uploader;
 import com.example.demo.service.gallery.GalleryService;
 import com.example.demo.service.gallery.ReplyService1;
 import lombok.AllArgsConstructor;
@@ -33,6 +36,9 @@ public class GalleryController {
 
     @Autowired
     private ReplyService1 replyService1;
+
+    @Autowired
+    private final S3Uploader s3Uploader;
 
     @GetMapping("register")
     public String register(Model model, HttpSession httpSession){
@@ -68,22 +74,17 @@ public class GalleryController {
 
         if (loginMember == null && socialMember == null){
             return "redirect:/login";
-        }
+        } else {
+            System.out.println("controller ㅅㅈ");
+            List<GalleryS3DTO> listFiles = service.getFiles();
+            System.out.println(listFiles);
+            List<GalleryS3DTO> fromS3 = s3Uploader.getListS3(listFiles, "upload");
+            System.out.println("froms3"+ fromS3);
+            model.addAttribute("list", fromS3);
 
-         else {
-            List<GalleryVO> list = service.getList(cri);
-            for (GalleryVO galleryVO : list) {
-//                galleryVO.setFileList(service.getFileList(galleryVO.getBno()));
-                if(service.getFileList(galleryVO.getBno()).size() > 0) {
-                    //System.out.println("list::" + list);
-                    GalleryFileVO fileVO = service.getFileList(galleryVO.getBno()).get(0);
-                    galleryVO.setFileUrl(fileVO.getUploadPath().replace("\\", "/") + "/" + fileVO.getUuid() + "_" + fileVO.getFileName());
-                }
-        }
+            List<GalleryVO> gallery = service.getList();
+            model.addAttribute("gallery", gallery);
 
-            model.addAttribute("list", list);
-            int total = service.getTotal(cri);
-            model.addAttribute("pageMaker", new PageDTO(cri, total));
             return "gallery/list";
         }
     }

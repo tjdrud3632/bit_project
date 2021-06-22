@@ -2,6 +2,7 @@ package com.example.demo.mapper.gallery;
 
 import com.example.demo.domain.Criteria;
 import com.example.demo.domain.gallery.GalleryFileVO;
+import com.example.demo.domain.gallery.GalleryS3DTO;
 import com.example.demo.domain.gallery.GalleryVO;
 import org.springframework.data.repository.query.Param;
 
@@ -30,4 +31,6 @@ public interface GalleryMapper {
     public List<GalleryFileVO> findByBno(Long bno);
 
     public void updateHit(@Param("bno") Long bno);
+
+    public List<GalleryS3DTO> getFilesByBno();
 }

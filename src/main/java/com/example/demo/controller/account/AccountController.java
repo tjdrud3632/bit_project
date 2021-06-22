@@ -135,6 +135,7 @@ public class AccountController {
         if(account.getBalance()-account.getMoney()>=0){
 
             service.withdrawal(account);
+            model.addAttribute("alert", "출금 완료 되었습니다.");
 
         } else {
             SessionMember socialMember = (SessionMember) httpSession.getAttribute("socialMember");

@@ -24,22 +24,22 @@
 
 	<div class="container-wrap">
 		<div class="row no-gutters">
-			<c:forEach var="file" items="${list}" varStatus="status">
-				<div class="col-md-6 col-lg-3 ftco-animate">
-					<div class="project">
-						<c:set var="display" value="/display?fileName="></c:set>
+			  <c:forEach var="gallery" items="${gallery}" varStatus="status">
 
-						<img src="${display}${file.fileUrl}" onerror="this.src='/resources/img/noImage.gif';" class="img-fluid"  style="height:400px;width:100%;"/>
-						<div class="text">
-                            <a href="get?bno=${file.bno}" style="color:white; font-size:2.0em; font-weight:bold; margin-bottom:10px; word-break:break-all;" >${file.title}</a><br></br>
-						    <a href="get?bno=${file.bno}" style="color:white; font-size:1.0em; margin-bottom:10px; word-break:break-all;" >${file.writer}</a><br></br>
-						    <a href="get?bno=${file.bno}" style="color:white; word-break:break-all;">${file.content}</a>
-						</div>
-						<a href="${display}${file.fileUrl}" class="icon image-popup d-flex justify-content-center align-items-center">
-							<span class="icon-expand"></span>
-						</a>
-					</div>
-				</div>
+                    <div class="col-md-6 col-lg-3 ftco-animate">
+                        <div class="project">
+                            <img src="${list[status.index].url}" onerror="this.src='/resources/img/noImage.gif';" class="img-fluid" style="height:400px;width:100%;"/>
+                            <div class="text">
+                                <a href="get?bno=${gallery.bno}" style="color:white; font-size:2.0em; font-weight:bold; margin-bottom:10px; word-break:break-all;" >${gallery.title}</a><br></br>
+                                <a href="get?bno=${gallery.bno}" style="color:white; font-size:1.0em; margin-bottom:10px; word-break:break-all;" >${gallery.writer}</a><br></br>
+                                <a href="get?bno=${gallery.bno}" style="color:white; word-break:break-all;">${gallery.content}</a>
+                            </div>
+                            <a href="${list[status.index].url}" class="icon image-popup d-flex justify-content-center align-items-center">
+                                <span class="icon-expand"></span>
+                            </a>
+                        </div>
+                    </div>
+
 			</c:forEach>
 		</div>
 	</div>

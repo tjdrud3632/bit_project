@@ -1,6 +1,7 @@
 package com.example.demo.controller.gallery;
 
 
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.example.demo.domain.gallery.AttachFileDTO;
 import com.example.demo.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,26 @@ public class UploadController1 {
         return s3Uploader.upload(file, "upload");
 
     }
+
+    @PostMapping("/show")
+    @ResponseBody
+    public String show(@RequestBody String fileName) {
+
+        log.info("/show 도착!");
+
+        return s3Uploader.getS3(fileName, "upload");
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public void delete(@RequestBody String fileName) {
+
+        log.info("/delete 도착!");
+
+        s3Uploader.deleteS3(fileName, "upload");
+    }
+
+
 
     @GetMapping("/uploadForm")
     public String uploadForm() {

@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.example.demo.domain.board.AttachFileDTO;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.example.demo.domain.gallery.GalleryS3DTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor    // final 멤버변수가 있으면 생성자 항목에 포함시킴
@@ -62,6 +64,23 @@ public class S3Uploader {
         return amazonS3Client.getUrl(bucket, url).toString();
     }
 
+    public List<GalleryS3DTO> getListS3(List<GalleryS3DTO> listFiles, String dirName) {
+        List<GalleryS3DTO> listGSD = new ArrayList<>();
+        for (GalleryS3DTO listFile : listFiles) {
+             String urls = getS3(listFile.getFileName(),dirName);
+             listFile.setUrl(urls);
+             listGSD.add(listFile);
+        }
+        return listGSD;
+    }
+
+    public void deleteS3(String fileName, String dirName){
+
+        String url = dirName +"/"+ fileName;
+        amazonS3Client.deleteObject(bucket, url);
+    }
+
+
 
     private void removeNewFile(File targetFile) {
         if(targetFile.delete()) {
@@ -81,7 +100,6 @@ public class S3Uploader {
         }
         return Optional.empty();
     }
-
 
 
 

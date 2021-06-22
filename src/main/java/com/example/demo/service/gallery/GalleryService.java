@@ -2,6 +2,7 @@ package com.example.demo.service.gallery;
 
 import com.example.demo.domain.Criteria;
 import com.example.demo.domain.gallery.GalleryFileVO;
+import com.example.demo.domain.gallery.GalleryS3DTO;
 import com.example.demo.domain.gallery.GalleryVO;
 
 import java.util.List;
@@ -18,9 +19,12 @@ public interface GalleryService {
 
    // public List<GalleryVO> getList();
 
-    public List<GalleryVO> getList(Criteria cri);
+    public List<GalleryVO> getList();
 
     public List<GalleryFileVO> getFileList(Long bno);
 
     public int getTotal (Criteria cri);
+
+    public List<GalleryS3DTO> getFiles();
+
 }

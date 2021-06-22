@@ -107,5 +107,8 @@
     </select>
 
 
+    <select id="getFilesByBno" resultType="com.example.demo.domain.gallery.GalleryS3DTO">
+        select * from gallery_file
+    </select>
 
 </mapper>
