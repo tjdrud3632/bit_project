@@ -136,7 +136,7 @@
       <!-- /.panel-heading -->
       <div class="panel-body">
         <div class="form-group uploadDiv">
-            <input type="file" id="uploadFile" name="uploadFile" accept="image/*" />
+            <input type="file" id="uploadFile" name="uploadFile" readonly/>
         </div>
         
         <div class='uploadResult'>
