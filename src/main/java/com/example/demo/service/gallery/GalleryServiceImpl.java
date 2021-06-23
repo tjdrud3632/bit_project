@@ -81,21 +81,6 @@ public class GalleryServiceImpl implements GalleryService {
         return mapper.delete(bno) == 1;
     }
 
-    @Override
-    public List<GalleryVO> getList() {
-
-        return mapper.getList();
-    }
-
-    @Override
-    public List<GalleryFileVO> getFileList(Long bno) {
-        return fileMapper.findByBno(bno);
-    }
-
-    @Override
-    public int getTotal(Criteria cri) {
-        return mapper.getTotalCount(cri);
-    }
 
     @Transactional
     @Override
@@ -105,14 +90,6 @@ public class GalleryServiceImpl implements GalleryService {
        // System.out.println("list:"+ gallery);
         return gallery;
     }
-
-
-
-  /*  @Override
-    public List<GalleryFileVO> getFileList(Long bno) {
-        return null;
-    }*/
-
 
 
 

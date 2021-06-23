@@ -133,38 +133,6 @@ public class BoardController {
         return "redirect:list" + cri.getListLink();
     }
 
-    private void deleteFiles(List<BoardFileVO> fileList){
-//없으면 그냥 리턴
-        if(fileList == null || fileList.size() == 0){
-            return;
-        }
-
-        fileList.forEach(file -> {
-            try {
-       //파일 삭제
-            Path filePath = Paths.get("C:\\upload\\"+ file.getUploadPath()+"\\"+file.getUuid()+"_"+ file.getFileName());
-
-             Files.deleteIfExists(filePath); //boolean
-        //이미지면 썸네일 파일도 삭제해줌
-            if(Files.probeContentType(filePath).startsWith("image"));
-                Path thumbNail = Paths.get("C:\\upload\\"+ file.getUploadPath()+"\\s_"+file.getUuid()+"_"+ file.getFileName());
-
-                Files.delete(thumbNail);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    //첨부파일과 관련된 내용을 json형태로 가지고옴 // $.getJSON("/board/getFileList", - get.jsp
-    @GetMapping(value = "getFileList",produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<List<BoardFileVO>> getFileList(Long bno){
-
-        return new ResponseEntity<>(service.getFileList(bno), HttpStatus.OK);
-    }
-
-
 
 
 }

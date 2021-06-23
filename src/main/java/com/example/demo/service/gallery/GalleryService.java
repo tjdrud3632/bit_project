@@ -17,14 +17,6 @@ public interface GalleryService {
 
     public boolean remove(Long bno);
 
-   // public List<GalleryVO> getList();
-
-    public List<GalleryVO> getList();
-
-    public List<GalleryFileVO> getFileList(Long bno);
-
-    public int getTotal (Criteria cri);
-
     public List<GalleryS3DTO> getFiles();
 
 }

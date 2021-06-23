@@ -4,17 +4,15 @@ package com.example.demo.controller.gallery;
 import com.example.demo.config.SessionMember;
 import com.example.demo.domain.Criteria;
 
-import com.example.demo.domain.gallery.GalleryFileVO;
+
 import com.example.demo.domain.gallery.GalleryS3DTO;
 
 import com.example.demo.service.S3Uploader;
 import com.example.demo.service.gallery.GalleryService;
-import com.example.demo.service.gallery.ReplyService1;
+
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -117,14 +115,6 @@ public class GalleryController {
     }
 
 
-
-    //첨부파일과 관련된 내용을 json형태로 가지고옴 // $.getJSON("/gallery/getFileList", - get.jsp
-    @GetMapping(value = "getFileList",produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<List<GalleryFileVO>> getFileList(Long bno){
-
-        return new ResponseEntity<>(service.getFileList(bno), HttpStatus.OK);
-    }
 
 
 
