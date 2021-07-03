@@ -138,7 +138,7 @@
 
         <div class='uploadResult'>
              <ul id="uploadResult">
-                 <img src="${gallery.url}" id="result-image" class="" >
+                 <img src="${gallery.url}" id="result-image" class="${gallery.fileName}">
              </ul>
         </div>
       </div>
@@ -166,7 +166,9 @@ $(document).ready(function() {
 	    var operation = $(this).data("oper");
 	    
 	    console.log(operation);
+
 //remove면 컨트롤러에게 전송
+
 	    if(operation === 'remove'){
 
                var fileName = $('#result-image').attr("class");
@@ -204,16 +206,20 @@ $(document).ready(function() {
 	    }else if(operation === 'modify'){
 	        
 	        console.log("submit clicked");
-            var fileName = $('#result-image').attr('class');
-            var url = $('#result-image').attr('src');
 
-	        var file = $("#fileName");
+            var fileName = $('#result-image').attr('class');
+            console.log("fileName: "+ fileName);
+            var url = $('#result-image').attr('src');
+            console.log("url: "+ url);
+
+            var str = "";
 
             if(fileName != ''){
                 str += "<input type='hidden' name='fileName' value=''>";
                 str += "<input type='hidden' name='url' value=''>";
 
-                formObj.append(str).submit();
+                formObj.append(str);
+
                  $("input[name='fileName']").attr("value", fileName);
                  $("input[name='url']").attr("value", url);
 
@@ -223,7 +229,9 @@ $(document).ready(function() {
 	    formObj.submit();
 	  });
 
-	   var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+	  /*
+
+	    var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
         var maxSize = 5242880; //5MB
 
         function checkExtension(fileName, fileSize){
@@ -294,6 +302,8 @@ $(document).ready(function() {
         }
 
       });
+
+      */
 
 });
 </script>
