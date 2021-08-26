@@ -17,7 +17,7 @@ bootWar {
 }
 
 
-	configurations {
+configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
