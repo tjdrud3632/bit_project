@@ -41,6 +41,7 @@
     <script src="/traders/js/bootstrap-datepicker.js"></script>
     <script src="/traders/js/scrollax.min.js"></script>
     <script src="/traders/js/main.js"></script>
+
 </section>
 
 <div class="row">
